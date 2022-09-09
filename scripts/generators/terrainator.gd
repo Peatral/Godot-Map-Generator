@@ -136,10 +136,22 @@ func mark_coast() -> void:
 func mark_corners() -> void:
 	for corner in corners.size():
 		var data : TerrainData = corners[corner]
-		var cells = voronator.touches_voronoi_point[corner]
-		var all_water = cells.all(func(c): return cells[c].water)
-		var all_land = cells.all(func(c): return !cells[c].water)
-		var all_ocean = cells.all(func(c): return cells[c].ocean)
+		var neighbors = voronator.touches_voronoi_point[corner]
+		
+		var all_water = true
+		var all_ocean = true
+		var all_land = true
+		for neighbor in neighbors:
+			if !all_water && !all_ocean && !all_land:
+				break
+			var cell_data = cells[neighbor]
+			if !cell_data.water:
+				all_water = false
+			if !cell_data.ocean:
+				all_ocean = false
+			if cell_data.water:
+				all_land = false
+		
 		data.water = all_water
 		data.ocean = all_water && all_ocean
 		data.coast = !all_water && !all_land
