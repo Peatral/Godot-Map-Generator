@@ -17,6 +17,8 @@ var last_polygon_end : int = 0 # used while building the polygons
 # The list of polygons touching the point at the index
 var touches_voronoi_point : Array = []
 
+# Wrapper to the delaunator to handle the voronoi cells more efficiently
+
 func _init(centers : PackedVector2Array):
 	delaunator = Delaunator.new(centers)
 	if delaunator.error:

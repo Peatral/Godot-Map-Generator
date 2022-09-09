@@ -19,6 +19,27 @@ signal marked_corners()
 signal applied_elevation()
 signal finished_generation()
 
+# Take a look at http://www-cs-students.stanford.edu/~amitp/game-programming/polygon-map-generation/
+# 
+# Currently implemented:
+# 1. Polygons
+# 2. Map representation (more or less)
+# 3. Islands
+# 
+# Being worked on:
+# 4. Elevation (move from cell based to corner based
+# 
+# Todo:
+# 5. Rivers (probably will store river edges separately)
+# 6. Moisture
+# 7. Biomes
+# 8. Noisy edges
+# 9. More noise
+# 10. Smooth biome transitions
+# 11. Distorted biome transitions
+
+# A terrain generator using the voronator as a base
+
 func _init(p_area : Rect2):
 	area = p_area
 
@@ -58,7 +79,7 @@ func run_island_function():
 		data.water = Array(voronator.vertex_indices(cell)).map(func(p): return corners[p].water).has(true)
 		cells[cell] = data
 
-# Technically not the corner lol
+# Technically not the corner lol (but close enough)
 func top_left_corner() -> int:
 	var idx = 0
 	var min = centers[0]
@@ -75,7 +96,7 @@ func falloff(point : Vector2) -> float:
 	var max_distance = sqrt(pow(cos(angle) * area.size.x / 2, 2) + pow(sin(angle) * area.size.y / 2, 2))
 	return clamp((distance / max_distance) * -2 + 1, -1, 1)
 
-func delaunator_bfs(startpoint : int, condition : Callable, action : Callable = func(point, layer): pass):
+func delaunator_bfs(startpoint : int, condition : Callable, action : Callable = func(point, layer): pass) -> void:
 	var todo = PackedInt32Array()
 	var layers = PackedInt32Array()
 	layers.resize(centers.size())
@@ -94,14 +115,14 @@ func delaunator_bfs(startpoint : int, condition : Callable, action : Callable = 
 				layers[point] = layers[current] + 1
 		todo.remove_at(0)
 
-func mark_ocean():
+func mark_ocean() -> void:
 	delaunator_bfs(top_left_corner(), func(current, point, layer): return cells[point].water, 
 		func(point, layer):
 			cells[point].ocean = true
 			return false
 	)
 
-func mark_coast():
+func mark_coast() -> void:
 	for idx in cells.size():
 		var cell = cells[idx]
 		if cell.water || cell.ocean:
@@ -112,9 +133,9 @@ func mark_coast():
 				cell.coast = true
 				break
 
-func mark_corners():
+func mark_corners() -> void:
 	for corner in corners.size():
-		var data = corners[corner]
+		var data : TerrainData = corners[corner]
 		var cells = voronator.touches_voronoi_point[corner]
 		var all_water = cells.all(func(c): return cells[c].water)
 		var all_land = cells.all(func(c): return !cells[c].water)
@@ -123,13 +144,13 @@ func mark_corners():
 		data.ocean = all_water && all_ocean
 		data.coast = !all_water && !all_land
 
-func apply_elevation():
+func apply_elevation() -> void:
 	var landmass = PackedInt32Array()
 	var dists = PackedInt32Array()
 	dists.resize(cells.size())
 	dists.fill(-1)
 	for idx in cells.size():
-		var cell = cells[idx]
+		var cell : TerrainData = cells[idx]
 		if cell.water:
 			continue
 		landmass.append(idx)

@@ -9,6 +9,8 @@ var index
 
 var error : bool = false
 
+# Based off of https://mapbox.github.io/delaunator/
+
 func _init(points : PackedVector2Array):
 	triangles = Geometry2D.triangulate_delaunay(points)
 	
