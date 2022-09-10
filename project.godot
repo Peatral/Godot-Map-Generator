@@ -9,7 +9,7 @@
 config_version=5
 
 _global_script_classes=[{
-"base": "Object",
+"base": "RefCounted",
 "class": &"Delaunator",
 "language": &"GDScript",
 "path": "res://scripts/generators/delaunator.gd"
@@ -19,22 +19,27 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://scripts/pq_entry.gd"
 }, {
-"base": "Node",
+"base": "RefCounted",
 "class": &"PoissonDiscSampling",
 "language": &"GDScript",
 "path": "res://scripts/generators/poisson_disc_sampling.gd"
+}, {
+"base": "Area2D",
+"class": &"PolygonArea",
+"language": &"GDScript",
+"path": "res://scripts/polygon_area.gd"
 }, {
 "base": "Object",
 "class": &"PriorityQueue",
 "language": &"GDScript",
 "path": "res://scripts/priority_queue.gd"
 }, {
-"base": "Object",
+"base": "RefCounted",
 "class": &"Terrainator",
 "language": &"GDScript",
 "path": "res://scripts/generators/terrainator.gd"
 }, {
-"base": "Object",
+"base": "RefCounted",
 "class": &"Voronator",
 "language": &"GDScript",
 "path": "res://scripts/generators/voronator.gd"
@@ -43,6 +48,7 @@ _global_script_class_icons={
 "Delaunator": "",
 "PQEntry": "",
 "PoissonDiscSampling": "",
+"PolygonArea": "",
 "PriorityQueue": "",
 "Terrainator": "",
 "Voronator": ""
@@ -51,6 +57,29 @@ _global_script_class_icons={
 [application]
 
 config/name="Map Generator"
-run/main_scene="res://scenes/test.tscn"
+run/main_scene="res://scenes/island_generator.tscn"
 config/features=PackedStringArray("4.0", "Vulkan Clustered")
 config/icon="res://icon.svg"
+
+[input]
+
+ui_zoom_in={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"store_command":true,"alt_pressed":false,"shift_pressed":false,"meta_pressed":false,"command_pressed":false,"button_mask":8,"position":Vector2(351, 244),"global_position":Vector2(351, 244),"factor":1.0,"button_index":4,"pressed":true,"double_click":false,"script":null)
+]
+}
+ui_zoom_out={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"store_command":true,"alt_pressed":false,"shift_pressed":false,"meta_pressed":false,"command_pressed":false,"button_mask":16,"position":Vector2(462, 227),"global_position":Vector2(462, 227),"factor":1.0,"button_index":5,"pressed":true,"double_click":false,"script":null)
+]
+}
+ui_click={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"store_command":true,"alt_pressed":false,"shift_pressed":false,"meta_pressed":false,"command_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"pressed":false,"double_click":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"store_command":true,"alt_pressed":false,"shift_pressed":false,"meta_pressed":false,"command_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"unicode":0,"echo":false,"script":null)
+]
+}
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://translations.de.translation", "res://translations.en.translation")

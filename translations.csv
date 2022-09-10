@@ -1,0 +1,16 @@
+keys,en,de
+UI_INPUT_SEED_LABEL,Seed:,Seed:
+UI_INPUT_SEED_PLACEHOLDER,Enter seed here...,Gib Seed hier ein...
+UI_INPUT_GENERATE,Generate,Generiere
+UI_INFO_USING_SEED,Using seed %d,Nutze Seed %d
+UI_INFO_STARTED_GENERATION,Started Generation,Generation gestartet
+UI_INFO_STARTED_VORONATOR,Started Voronator,Voronator Gestartet
+UI_INFO_RAN_ISLAND_FUNCTION,Ran island function,Insel Funktion ausgeführt
+UI_INFO_MARKED_OCEAN,Marked ocean,Ozean markiert
+UI_INFO_MARKED_COASTS,Marked coasts,Küsten markiert
+UI_INFO_MARKED_CORNERS,Marked corners,Ecken markiert
+UI_INFO_APPLIED_ELEVATION,Applied elevation,Höhe angewendet
+UI_INFO_GENERATION_FINISHED,Finished generation,Generation beendet
+UI_INFO_GENERATION_ERROR,Generation Error,Fehler bei Generation
+UI_INFO_SEED,Seed: %d,Seed: %d
+UI_CLICK_TO_COPY,Click to copy,Klicke um zu kopieren

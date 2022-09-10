@@ -1,0 +1,188 @@
+[gd_scene load_steps=7 format=3 uid="uid://n2u8wauowhhq"]
+
+[ext_resource type="Script" path="res://scripts/generator_ui.gd" id="1_k0rom"]
+[ext_resource type="Script" path="res://scripts/seed_label.gd" id="3_l8y56"]
+
+[sub_resource type="Animation" id="Animation_axm6f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fader:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Fader:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SeedLabel:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ptrgw"]
+resource_name = "ui_black_fade"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fader:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Fader:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_pdkrd"]
+resource_name = "ui_seed_copy"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SeedLabel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0, 0.94902, 0.203922, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xf2xk"]
+_data = {
+"RESET": SubResource("Animation_axm6f"),
+"ui_black_fade": SubResource("Animation_ptrgw"),
+"ui_seed_copy": SubResource("Animation_pdkrd")
+}
+
+[node name="IslandGeneratorUI" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_k0rom")
+
+[node name="Fader" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="InfoText" type="RichTextLabel" parent="."]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 311.0
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="SeedInputHolder" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SeedInputPanel" type="PanelContainer" parent="SeedInputHolder"]
+custom_minimum_size = Vector2(300, 150)
+offset_left = 426.0
+offset_top = 249.0
+offset_right = 726.0
+offset_bottom = 399.0
+
+[node name="MarginContainer" type="MarginContainer" parent="SeedInputHolder/SeedInputPanel"]
+offset_right = 300.0
+offset_bottom = 150.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SeedInputHolder/SeedInputPanel/MarginContainer"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 290.0
+offset_bottom = 140.0
+
+[node name="Label" type="Label" parent="SeedInputHolder/SeedInputPanel/MarginContainer/VBoxContainer"]
+offset_top = 7.0
+offset_right = 280.0
+offset_bottom = 33.0
+size_flags_vertical = 6
+text = "UI_INPUT_SEED_LABEL"
+
+[node name="SeedInput" type="LineEdit" parent="SeedInputHolder/SeedInputPanel/MarginContainer/VBoxContainer"]
+offset_top = 44.0
+offset_right = 280.0
+offset_bottom = 85.0
+size_flags_vertical = 3
+placeholder_text = "UI_INPUT_SEED_PLACEHOLDER"
+
+[node name="GenerateButton" type="Button" parent="SeedInputHolder/SeedInputPanel/MarginContainer/VBoxContainer"]
+offset_top = 89.0
+offset_right = 280.0
+offset_bottom = 130.0
+size_flags_vertical = 3
+text = "UI_INPUT_GENERATE"
+
+[node name="SeedLabel" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -67.0
+offset_bottom = 26.0
+grow_horizontal = 0
+tooltip_text = "UI_CLICK_TO_COPY"
+mouse_filter = 0
+horizontal_alignment = 2
+script = ExtResource("3_l8y56")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "RESET"
+libraries = {
+"": SubResource("AnimationLibrary_xf2xk")
+}
+
+[connection signal="pressed" from="SeedInputHolder/SeedInputPanel/MarginContainer/VBoxContainer/GenerateButton" to="." method="_on_generate_button_pressed"]
+[connection signal="seed_copied" from="SeedLabel" to="." method="_on_seed_copied"]

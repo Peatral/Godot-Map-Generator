@@ -1,14 +1,5 @@
-extends Object
-
 class_name Terrainator
-
-var voronator : Voronator
-
-var cells : Array = []
-var corners : Array = []
-var centers : PackedVector2Array
-
-var area : Rect2
+extends RefCounted
 
 signal started_generation()
 signal started_voronator()
@@ -18,6 +9,27 @@ signal marked_coasts()
 signal marked_corners()
 signal applied_elevation()
 signal finished_generation()
+signal generation_error()
+
+enum State {
+	IDLE,
+	RUNNING,
+	ERROR,
+	FINISHED
+}
+
+var state: State = State.IDLE
+
+var voronator: Voronator
+
+var cells: Array = []
+var corners: Array = []
+var centers: PackedVector2Array
+
+var area: Rect2
+
+var terrain_seed: int = 0
+var noise: Noise
 
 # Take a look at http://www-cs-students.stanford.edu/~amitp/game-programming/polygon-map-generation/
 # 
@@ -40,14 +52,27 @@ signal finished_generation()
 
 # A terrain generator using the voronator as a base
 
-func _init(p_area : Rect2):
+func _init(p_area: Rect2):
 	area = p_area
 
 # Call to start generation process
 func generate():
+	if state != State.IDLE:
+		return
+	
+	state = State.RUNNING
+	
+	noise = FastNoiseLite.new()
+	noise.seed = terrain_seed
+	
 	emit_signal("started_generation")
-	centers = PoissonDiscSampling.calculate(area.size, 10, 10)
+	centers = PoissonDiscSampling.calculate(area.size, 10, 10, true, terrain_seed)
 	voronator = Voronator.new(centers)
+	
+	if voronator.error:
+		state = State.ERROR
+		emit_signal("generation_error")
+		return
 	
 	corners.resize(voronator.vertex_count())
 	cells.resize(voronator.poly_count())
@@ -63,10 +88,10 @@ func generate():
 	emit_signal("marked_corners")
 	apply_elevation()
 	emit_signal("applied_elevation")
+	state = State.FINISHED
 	emit_signal("finished_generation")
 
-func island_function(pos : Vector2) -> bool:
-	var noise = FastNoiseLite.new()
+func island_function(pos: Vector2) -> bool:
 	return clamp(noise.get_noise_2d(pos.x, pos.y) + falloff(pos), -1, 1) > 0
 
 func run_island_function():
@@ -82,21 +107,21 @@ func run_island_function():
 # Technically not the corner lol (but close enough)
 func top_left_corner() -> int:
 	var idx = 0
-	var min = centers[0]
+	var minimal = centers[0]
 	for point in centers.size():
-		if centers[point].x <= min.x + area.size.x / 10 && centers[point].y <= min.y + area.size.y / 10:
-			min = centers[point]
+		if centers[point].x <= minimal.x + area.size.x / 10 && centers[point].y <= minimal.y + area.size.y / 10:
+			minimal = centers[point]
 			idx = point
 	return idx
 
-func falloff(point : Vector2) -> float:
+func falloff(point: Vector2) -> float:
 	var center = area.position + area.size / 2
 	var distance = (point - center).length()
 	var angle = (point - center).angle()
 	var max_distance = sqrt(pow(cos(angle) * area.size.x / 2, 2) + pow(sin(angle) * area.size.y / 2, 2))
 	return clamp((distance / max_distance) * -2 + 1, -1, 1)
 
-func delaunator_bfs(startpoint : int, condition : Callable, action : Callable = func(point, layer): pass) -> void:
+func delaunator_bfs(startpoint: int, condition: Callable, action: Callable = func(point, layer): pass) -> void:
 	var todo = PackedInt32Array()
 	var layers = PackedInt32Array()
 	layers.resize(centers.size())
@@ -135,7 +160,7 @@ func mark_coast() -> void:
 
 func mark_corners() -> void:
 	for corner in corners.size():
-		var data : TerrainData = corners[corner]
+		var data: TerrainData = corners[corner]
 		var neighbors = voronator.touches_voronoi_point[corner]
 		
 		var all_water = true
@@ -162,7 +187,7 @@ func apply_elevation() -> void:
 	dists.resize(cells.size())
 	dists.fill(-1)
 	for idx in cells.size():
-		var cell : TerrainData = cells[idx]
+		var cell: TerrainData = cells[idx]
 		if cell.water:
 			continue
 		landmass.append(idx)
@@ -179,8 +204,8 @@ func apply_elevation() -> void:
 		cell.elevation = dists[idx] / float(max_dist)
 
 class TerrainData:
-	var elevation : float = 0
-	var distance_to_ocean : int = -1
-	var water : bool = false
-	var ocean : bool = false
-	var coast : bool = false
+	var elevation: float = 0
+	var distance_to_ocean: int = -1
+	var water: bool = false
+	var ocean: bool = false
+	var coast: bool = false

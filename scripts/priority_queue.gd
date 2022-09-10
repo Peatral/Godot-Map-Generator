@@ -5,25 +5,25 @@ class_name PriorityQueue
 const INT_MAX = 9223372036854775807
 const INT_MIN = -INT_MAX
 
-var elements : Array = []
-var size : int = 0
+var elements: Array = []
+var size: int = 0
 
-func swap(arr : Array, a : int, b : int):
+func swap(arr: Array, a: int, b: int):
 	var temp = arr[a]
 	arr[a] = arr[b]
 	arr[b] = temp
 
-func get_parent(index : int):
+func get_parent(index: int):
 	return (index - 1) / 2
 
-func get_left_child(index : int):
+func get_left_child(index: int):
 	return 2 * index + 1
 
-func get_right_child(index : int):
+func get_right_child(index: int):
 	return 2 * index + 2
 
 # Pushes a new entry onto the PQ
-func push(element : PQEntry):
+func push(element: PQEntry):
 	size += 1
 	var index = size - 1
 	if elements.size() > index:
@@ -34,7 +34,7 @@ func push(element : PQEntry):
 		swap(elements, index, get_parent(index))
 		index = get_parent(index)
 
-func decrease_key(index : int, value : int):
+func decrease_key(index: int, value: int):
 	if value >= elements[index].priority:
 		return
 	elements[index].priority = value
@@ -55,11 +55,11 @@ func pop():
 	min_heapify(0)
 	return root
 
-func delete_key(index : int):
+func delete_key(index: int):
 	decrease_key(index, INT_MIN)
 	pop()
 
-func min_heapify(index : int):
+func min_heapify(index: int):
 	var left_child = get_left_child(index)
 	var right_child = get_right_child(index)
 	var right_index = index
