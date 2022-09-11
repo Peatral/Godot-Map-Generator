@@ -7,6 +7,7 @@ signal applied_basic_types()
 signal applied_elevation()
 signal generated_rivers()
 signal generated_moisture()
+signal generated_biomes()
 signal finished_generation()
 signal generation_error()
 
@@ -33,6 +34,7 @@ var centers: PackedVector2Array
 @onready var feature_elevation: TerrainFeatureElevation = $Elevation
 @onready var feature_rivers: TerrainFeatureRivers = $Rivers
 @onready var feature_moisture: TerrainFeatureMoisture = $Moisture
+@onready var feature_biomes: TerrainFeatureBiomes = $Biomes
 
 # Take a look at http://www-cs-students.stanford.edu/~amitp/game-programming/polygon-map-generation/
 # 
@@ -42,12 +44,13 @@ var centers: PackedVector2Array
 # 3. Islands
 # 4. Elevation
 # 5. Rivers
+# 6. Moisture
+# 7. Biomes
 # 
 # Being worked on:
-# 6. Moisture
+# -
 #
 # Todo:
-# 7. Biomes
 # 8. Noisy edges
 # 9. More noise
 # 10. Smooth biome transitions
@@ -87,6 +90,8 @@ func generate():
 	emit_signal("generated_rivers")
 	feature_moisture._generate_features(centers, voronator)
 	emit_signal("generated_moisture")
+	feature_biomes._generate_features(centers, voronator)
+	emit_signal("generated_biomes")
 	
 	state = State.FINISHED
 	emit_signal("finished_generation")

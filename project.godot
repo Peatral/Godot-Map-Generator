@@ -50,6 +50,11 @@ _global_script_classes=[{
 "path": "res://scripts/terrain_features/basic_types.gd"
 }, {
 "base": "TerrainFeature",
+"class": &"TerrainFeatureBiomes",
+"language": &"GDScript",
+"path": "res://scripts/terrain_features/biomes.gd"
+}, {
+"base": "TerrainFeature",
 "class": &"TerrainFeatureElevation",
 "language": &"GDScript",
 "path": "res://scripts/terrain_features/elevation.gd"
@@ -83,6 +88,7 @@ _global_script_class_icons={
 "PriorityQueue": "",
 "TerrainFeature": "",
 "TerrainFeatureBasicTypes": "",
+"TerrainFeatureBiomes": "",
 "TerrainFeatureElevation": "",
 "TerrainFeatureMoisture": "",
 "TerrainFeatureRivers": "",

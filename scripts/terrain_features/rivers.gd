@@ -11,9 +11,6 @@ var river_start_indices = PackedInt32Array()
 @export_node_path(Node) var elevation_path: NodePath
 @onready var elevation: TerrainFeatureElevation = get_node(elevation_path)
 
-func _ready():
-	seed(feature_seed)
-
 func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> void:
 	_generate_rivers(voronator)
 

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://dqt2ghgxb5s0g"]
+
+[ext_resource type="Script" path="res://scripts/biome.gd" id="1_iuqvj"]
+
+[sub_resource type="Curve" id="Curve_oc6hc"]
+_data = [Vector2(0.259036, 1), 0.0, 0.0, 0, 0, Vector2(0.516871, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_pxjci"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.234663, 1), 0.0, 0.0, 0, 0, Vector2(0.504601, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[resource]
+script = ExtResource("1_iuqvj")
+name = "BIOME_GRASSLAND"
+color = Color(0.768627, 0.831373, 0.666667, 1)
+height_probability = SubResource("Curve_oc6hc")
+moisture_probability = SubResource("Curve_pxjci")

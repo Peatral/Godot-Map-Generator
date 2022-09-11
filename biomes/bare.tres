@@ -1,0 +1,18 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://ckpr3ca11okcf"]
+
+[ext_resource type="Script" path="res://scripts/biome.gd" id="1_nev33"]
+
+[sub_resource type="Curve" id="Curve_ytqoj"]
+_data = [Vector2(0.668675, 0), 0.0, 0.0, 0, 0, Vector2(0.902527, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_n17o3"]
+_data = [Vector2(0.165644, 1), 0.0, 0.0, 0, 0, Vector2(0.329755, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[resource]
+script = ExtResource("1_nev33")
+name = "BIOME_BARE"
+color = Color(0.733333, 0.733333, 0.733333, 1)
+height_probability = SubResource("Curve_ytqoj")
+moisture_probability = SubResource("Curve_n17o3")

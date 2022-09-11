@@ -6,7 +6,6 @@ signal pressed(idx)
 var idx: int = -1
 var poly: PackedVector2Array
 var color: Color
-var vertex_colors: PackedColorArray
 
 var mouse_over = false
 
@@ -20,7 +19,6 @@ func _ready():
 	polygon.name = "Polygon"
 	polygon.polygon = poly
 	polygon.color = color
-	polygon.vertex_colors = vertex_colors
 	add_child(polygon)
 	
 	var notifier: VisibleOnScreenNotifier2D = VisibleOnScreenNotifier2D.new()

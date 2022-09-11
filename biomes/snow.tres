@@ -1,0 +1,18 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://cnla2h3sevayr"]
+
+[ext_resource type="Script" path="res://scripts/biome.gd" id="1_totdb"]
+
+[sub_resource type="Curve" id="Curve_bjola"]
+_data = [Vector2(0.691265, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_6vsiv"]
+_data = [Vector2(0.441718, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[resource]
+script = ExtResource("1_totdb")
+name = "BIOME_SNOW"
+color = Color(0.972549, 0.972549, 0.972549, 1)
+height_probability = SubResource("Curve_bjola")
+moisture_probability = SubResource("Curve_6vsiv")

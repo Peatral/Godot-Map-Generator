@@ -1,0 +1,18 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://djhsdb4nnm082"]
+
+[ext_resource type="Script" path="res://scripts/biome.gd" id="1_s03kr"]
+
+[sub_resource type="Curve" id="Curve_p5np2"]
+_data = [Vector2(0.24247, 0), 0.0, 0.0, 0, 0, Vector2(0.493976, 1), 0.0, 0.0, 0, 0, Vector2(0.584337, 1), 0.0, 0.0, 0, 0, Vector2(0.837545, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Curve" id="Curve_dxtxx"]
+_data = [Vector2(0.0541516, 1), 0.0, 0.0, 0, 0, Vector2(0.3213, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[resource]
+script = ExtResource("1_s03kr")
+name = "BIOME_TEMPERATE_DESERT"
+color = Color(0.894118, 0.909804, 0.792157, 1)
+height_probability = SubResource("Curve_p5np2")
+moisture_probability = SubResource("Curve_dxtxx")

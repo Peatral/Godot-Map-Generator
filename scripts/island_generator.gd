@@ -15,6 +15,7 @@ func _ready():
 	terrainator.connect("applied_elevation", func(): ui.print_text(tr("UI_INFO_APPLIED_ELEVATION"), true))
 	terrainator.connect("generated_rivers", func(): ui.print_text(tr("UI_INFO_GENERATED_RIVERS"), true))
 	terrainator.connect("generated_moisture", func(): ui.print_text(tr("UI_INFO_GENERATED_MOISTURE"), true))
+	terrainator.connect("generated_biomes", func(): ui.print_text(tr("UI_INFO_GENERATED_BIOMES"), true))
 	terrainator.connect("started_generation", func(): ui.print_text(tr("UI_INFO_STARTED_GENERATION"), true))
 	terrainator.connect("generation_error", func(): ui.print_text(tr("UI_INFO_GENERATION_ERROR"), true))
 	
@@ -47,7 +48,6 @@ func generate_polygon_areas():
 		area.idx = poly_idx
 		area.poly = poly
 		area.color = cell_fill_color(poly_idx)
-		area.vertex_colors = cell_vertex_colors(poly_idx)
 		island.add_child(area)
 		area.connect("pressed", cell_clicked)
 
@@ -62,10 +62,12 @@ func cell_clicked(idx: int):
 		var coast = terrainator.feature_basic_types.is_cell_coast(idx)
 		var elevation = terrainator.feature_elevation.cell_elevation[idx]
 		var moisture = terrainator.feature_moisture.moisture[idx]
+		var biome = terrainator.feature_biomes.get_biome(idx)
 		text = "Index: %d\n" % highlighted_cell
 		text += "Ocean\n" if ocean else "Lake\n" if lake else "Coast\n" if coast else "Land\n"
 		text += "Elevation: %f\n" % elevation
 		text += "Moisture: %f\n" % moisture
+		text += "Biome: %s\n" % tr(biome.name)
 		text += "Poly:\n"
 		for vertex in terrainator.voronator.vertex_indices(highlighted_cell):
 			text += "%d (%f)\n" % [vertex, terrainator.feature_elevation.vertex_elevation[vertex]]
@@ -104,46 +106,22 @@ func _draw():
 			draw_string(preload("res://m5x7.ttf"), terrainator.voronator.get_vertex(vertex), str(terrainator.feature_elevation.distance_to_coast[vertex]), HORIZONTAL_ALIGNMENT_LEFT, -1, 4)
 
 func cell_fill_color(idx: int) -> Color:
-	var color = Color.RED
+	var color = terrainator.feature_biomes.biome_list[terrainator.feature_biomes.biomes[idx]].color
 	
 	var feature_basic_types = terrainator.feature_basic_types
 	var feature_elevation = terrainator.feature_elevation
-	var feature_moisture = terrainator.feature_moisture
 	
 	var ocean = feature_basic_types.is_cell_ocean(idx)
 	var lake = feature_basic_types.is_cell_lake(idx)
-	var coast = feature_basic_types.is_cell_coast(idx)
 	var elevation = feature_elevation.cell_elevation[idx]
-	var moisture = feature_moisture.moisture[idx]
 	
 	if lake:
 		color = Color.html("5b84ad")
 	elif ocean:
 		color = Color.html("33335b")
 	else:
-		color = Color.html("618b55").lerp(Color.html("41736c"), moisture).lerp(Color.WHITE_SMOKE, elevation)
+		color.v = 0.75 + elevation / 4.0
 	return color
-
-func cell_vertex_colors(idx: int) -> PackedColorArray:
-	var colors = PackedColorArray()
-	
-	var feature_basic_types = terrainator.feature_basic_types
-	var feature_elevation = terrainator.feature_elevation
-	
-	for vertex in terrainator.voronator.vertex_indices(idx):
-		var ocean = feature_basic_types.is_vertex_ocean(vertex)
-		var lake = feature_basic_types.is_vertex_lake(vertex)
-		var coast = feature_basic_types.is_vertex_coast(vertex)
-		var elevation = feature_elevation.vertex_elevation[idx]
-		var color = Color.RED
-		if lake:
-			color = Color.html("5b84ad")
-		elif ocean:
-			color = Color.html("33335b")
-		else:
-			color = Color.html("618b55").lerp(Color.WHITE_SMOKE, elevation)
-		colors.append(color)
-	return colors
 
 func draw_cell(idx: int, color: Color, filled: bool):
 	var cell = terrainator.voronator.polygon(idx)

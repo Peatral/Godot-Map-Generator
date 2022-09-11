@@ -1,0 +1,18 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://dwursni6xytit"]
+
+[ext_resource type="Script" path="res://scripts/biome.gd" id="1_31yg7"]
+
+[sub_resource type="Curve" id="Curve_k20vj"]
+_data = [Vector2(0.14006, 0), 0.0, 0.0, 0, 0, Vector2(0.371988, 1), 0.0, 0.0, 0, 0, Vector2(0.554217, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_6cx5f"]
+_data = [Vector2(0.443252, 0), 0.0, 0.0, 0, 0, Vector2(0.673313, 1), 0.0, 0.0, 0, 0, Vector2(0.909509, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[resource]
+script = ExtResource("1_31yg7")
+name = "BIOME_TEMPERATE_DECIDUOUS_FOREST"
+color = Color(0.705882, 0.788235, 0.662745, 1)
+height_probability = SubResource("Curve_k20vj")
+moisture_probability = SubResource("Curve_6cx5f")

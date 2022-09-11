@@ -9,7 +9,21 @@ UI_INFO_APPLIED_BASIC_TYPES,Applied basic types,Grundtypen angewendet
 UI_INFO_APPLIED_ELEVATION,Applied elevation,Höhe angewendet
 UI_INFO_GENERATED_RIVERS,Generated rivers,Flüsse erzeugt
 UI_INFO_GENERATED_MOISTURE,Generated moisture,Feuchtgebiete erzeugt
+UI_INFO_GENERATED_BIOMES,Generated biomes,Biome erzeugt
 UI_INFO_GENERATION_FINISHED,Finished generation,Generation beendet
 UI_INFO_GENERATION_ERROR,Generation Error,Fehler bei Generation
 UI_INFO_SEED,Seed: %d,Seed: %d
 UI_CLICK_TO_COPY,Click to copy,Klicke um zu kopieren
+BIOME_SNOW,Snow,Schnee
+BIOME_TUNDRA,Tundra,Tundra
+BIOME_BARE,Bare,Kahl
+BIOME_SCORCHED,Scorched,Verbrannt
+BIOME_TAIGA,Taiga,Taiga
+BIOME_SHRUBLAND,Shrubland,Buschland
+BIOME_TEMPERATE_DESERT,Temperate Desert,Gemäßigte Wüste
+BIOME_TEMPERATE_RAIN_FOREST,Temperate Rain Forest,Gemäßigter Regenwald
+BIOME_TEMPERATE_DECIDUOUS_FOREST,Temperate Deciduous Forest,Gemäßigter Laubwald
+BIOME_GRASSLAND,Grassland,Grasland
+BIOME_TROPICAL_RAIN_FOREST,Tropical Rain Forest,Tropischer Regenwald
+BIOME_TROPICAL_SEASONAL_FOREST,Tropical Seasonal Forest,Monsunwald
+BIOME_SUBTROPICAL_DESERT,Subtropical Desert,Subtropische Wüste

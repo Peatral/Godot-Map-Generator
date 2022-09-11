@@ -1,0 +1,18 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://b4clufv401y8y"]
+
+[ext_resource type="Script" path="res://scripts/biome.gd" id="1_1w2co"]
+
+[sub_resource type="Curve" id="Curve_kykio"]
+_data = [Vector2(0.638554, 0), 0.0, 0.0, 0, 0, Vector2(0.909747, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_etx5g"]
+_data = [Vector2(0.108303, 1), 0.0, 0.0, 0, 0, Vector2(0.312883, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[resource]
+script = ExtResource("1_1w2co")
+name = "BIOME_SCORCHED"
+color = Color(0.6, 0.6, 0.6, 1)
+height_probability = SubResource("Curve_kykio")
+moisture_probability = SubResource("Curve_etx5g")

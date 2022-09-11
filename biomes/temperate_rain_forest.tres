@@ -1,0 +1,18 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://cvkal7ix1feu4"]
+
+[ext_resource type="Script" path="res://scripts/biome.gd" id="1_7klkv"]
+
+[sub_resource type="Curve" id="Curve_i836x"]
+_data = [Vector2(0.0888554, 0), 0.0, 0.0, 0, 0, Vector2(0.365964, 1), 0.0, 0.0, 0, 0, Vector2(0.582831, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_wtias"]
+_data = [Vector2(0.820552, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[resource]
+script = ExtResource("1_7klkv")
+name = "BIOME_TEMPERATE_RAIN_FOREST"
+color = Color(0.643137, 0.768627, 0.658824, 1)
+height_probability = SubResource("Curve_i836x")
+moisture_probability = SubResource("Curve_wtias")

@@ -14,7 +14,7 @@ func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> vo
 	distance_to_seed.resize(voronator.poly_count())
 	distance_to_seed.fill(-1)
 	moisture.resize(voronator.poly_count())
-	moisture.fill(0.0)
+	moisture.fill(-1)
 	
 	var max_dist = -1
 	var todo = PackedInt32Array()
@@ -40,7 +40,9 @@ func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> vo
 	for cell in voronator.poly_count():
 		if basic_types.cell_water[cell]:
 			distance_to_seed[cell] = 0
-		moisture[cell] = 1.0 - pow(distance_to_seed[cell] / float(max_dist), 0.5)
+		moisture[cell] = float(1.0 - pow(distance_to_seed[cell] / float(max_dist), 0.5))
+		if is_nan(moisture[cell]):
+			moisture[cell] = 0.0
 
 # Finds all cells that spread moisture (riverbanks, lakeshores, etc.)
 func find_moisture_seeds(voronator: Voronator) -> PackedInt32Array:

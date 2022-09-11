@@ -13,11 +13,10 @@ var noise: Noise
 
 @export var area: Rect2
 
-func _ready() -> void:
+func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> void:
 	noise = FastNoiseLite.new()
 	noise.seed = feature_seed
-
-func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> void:
+	
 	cell_ocean.resize(voronator.poly_count())
 	cell_water.resize(voronator.poly_count())
 	cell_coast.resize(voronator.poly_count())

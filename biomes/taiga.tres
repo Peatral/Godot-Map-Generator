@@ -1,0 +1,18 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://3f7ofdvmp11k"]
+
+[ext_resource type="Script" path="res://scripts/biome.gd" id="1_kpx8a"]
+
+[sub_resource type="Curve" id="Curve_8tg68"]
+_data = [Vector2(0.429217, 0), 0.0, 0.0, 0, 0, Vector2(0.612952, 1), 0.0, 0.0, 0, 0, Vector2(0.795181, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_e331p"]
+_data = [Vector2(0.683735, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[resource]
+script = ExtResource("1_kpx8a")
+name = "BIOME_TAIGA"
+color = Color(0.8, 0.831373, 0.733333, 1)
+height_probability = SubResource("Curve_8tg68")
+moisture_probability = SubResource("Curve_e331p")

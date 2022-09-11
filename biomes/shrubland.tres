@@ -1,0 +1,18 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://dp5ypoqcfwgno"]
+
+[ext_resource type="Script" path="res://scripts/biome.gd" id="1_0jn3e"]
+
+[sub_resource type="Curve" id="Curve_c2qoa"]
+_data = [Vector2(0.463855, 0), 0.0, 0.0, 0, 0, Vector2(0.679217, 1), 0.0, 0.0, 0, 0, Vector2(0.953313, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_svp8c"]
+_data = [Vector2(0.242331, 0), 0.0, 0.0, 0, 0, Vector2(0.492331, 1), 0.0, 0.0, 0, 0, Vector2(0.753067, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[resource]
+script = ExtResource("1_0jn3e")
+name = "BIOME_SHRUBLAND"
+color = Color(0.768627, 0.8, 0.733333, 1)
+height_probability = SubResource("Curve_c2qoa")
+moisture_probability = SubResource("Curve_svp8c")
