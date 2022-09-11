@@ -9,6 +9,11 @@
 config_version=5
 
 _global_script_classes=[{
+"base": "Resource",
+"class": &"Biome",
+"language": &"GDScript",
+"path": "res://scripts/biome.gd"
+}, {
 "base": "RefCounted",
 "class": &"Delaunator",
 "language": &"GDScript",
@@ -34,7 +39,32 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://scripts/priority_queue.gd"
 }, {
-"base": "RefCounted",
+"base": "Node",
+"class": &"TerrainFeature",
+"language": &"GDScript",
+"path": "res://scripts/terrain_features/terrain_feature.gd"
+}, {
+"base": "TerrainFeature",
+"class": &"TerrainFeatureBasicTypes",
+"language": &"GDScript",
+"path": "res://scripts/terrain_features/basic_types.gd"
+}, {
+"base": "TerrainFeature",
+"class": &"TerrainFeatureElevation",
+"language": &"GDScript",
+"path": "res://scripts/terrain_features/elevation.gd"
+}, {
+"base": "TerrainFeature",
+"class": &"TerrainFeatureMoisture",
+"language": &"GDScript",
+"path": "res://scripts/terrain_features/moisture.gd"
+}, {
+"base": "TerrainFeature",
+"class": &"TerrainFeatureRivers",
+"language": &"GDScript",
+"path": "res://scripts/terrain_features/rivers.gd"
+}, {
+"base": "Node",
 "class": &"Terrainator",
 "language": &"GDScript",
 "path": "res://scripts/generators/terrainator.gd"
@@ -45,11 +75,17 @@ _global_script_classes=[{
 "path": "res://scripts/generators/voronator.gd"
 }]
 _global_script_class_icons={
+"Biome": "",
 "Delaunator": "",
 "PQEntry": "",
 "PoissonDiscSampling": "",
 "PolygonArea": "",
 "PriorityQueue": "",
+"TerrainFeature": "",
+"TerrainFeatureBasicTypes": "",
+"TerrainFeatureElevation": "",
+"TerrainFeatureMoisture": "",
+"TerrainFeatureRivers": "",
 "Terrainator": "",
 "Voronator": ""
 }

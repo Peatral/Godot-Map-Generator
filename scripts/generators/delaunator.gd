@@ -1,3 +1,4 @@
+# Based off of https://mapbox.github.io/delaunator/
 class_name Delaunator
 extends RefCounted
 
@@ -8,8 +9,7 @@ var index
 
 var error: bool = false
 
-# Based off of https://mapbox.github.io/delaunator/
-
+# Triangulates the given points and calculates the halfedges
 func _init(points: PackedVector2Array):
 	triangles = Geometry2D.triangulate_delaunay(points)
 	
@@ -41,22 +41,28 @@ func _init(points: PackedVector2Array):
 			if edge_index.has(Vector2i(q, p)):
 				_link(edge, edge_index[Vector2i(q, p)])
 
+# Links two halfedges
 func _link(a: int, b: int) -> void:
 	halfedges[a] = b
 	if b != -1: halfedges[b] = a
 
+# Returns the three edges of a given triangle
 static func edges_of_triangle(t: int) -> Array:
 	return [3 * t, 3 * t + 1, 3 * t + 2]
 
+# Returns the triangle of a given edge
 static func triangle_of_edge(e: int) -> int:
 	return int(floor(e / 3.0))
 
+# Returns the next halfedge in the triangle of the given edge
 static func next_halfedge(e: int) -> int:
 	return e - 2 if e % 3 == 2 else e + 1
 
+# Returns the previous halfedge in the triangle of the given edge
 static func prev_halfedge(e: int) -> int:
 	return e + 2 if e % 3 == 0 else e - 1
 
+# Runs the callback for each edge
 func for_each_triangle_edge(points: PackedVector2Array, callback: Callable) -> void:
 	for e in triangles.size():
 		if e > halfedges[e]:
@@ -64,13 +70,16 @@ func for_each_triangle_edge(points: PackedVector2Array, callback: Callable) -> v
 			var q = points[triangles[next_halfedge(e)]]
 			callback.call(e, p, q)
 
+# Returns all points of a given triangle
 func points_of_triangle(t: int) -> PackedInt32Array:
 	return PackedInt32Array(edges_of_triangle(t).map(func(e): return triangles[e]))
 
+# Runs the callback for each triangle
 func for_each_triangle(points: PackedVector2Array, callback: Callable) -> void:
 	for t in triangles.size() / 3.0:
 		callback.call(t, Array(points_of_triangle(t)).map(func(p): return points[p]))
 
+# Returns all adjacent triangles to the given triangle
 func triangles_adjacent_to_triangle(t: int) -> PackedInt32Array:
 	var adjacent_triangles = PackedInt32Array()
 	for e in edges_of_triangle(t):
@@ -79,6 +88,7 @@ func triangles_adjacent_to_triangle(t: int) -> PackedInt32Array:
 			adjacent_triangles.append(triangle_of_edge(opposite))
 	return adjacent_triangles
 
+# Returns the circumcenter of three points
 static func circumcenter(a: Vector2, b: Vector2, c: Vector2) -> Vector2:
 	var ad = a.x * a.x + a.y * a.y
 	var bd = b.x * b.x + b.y * b.y
@@ -89,10 +99,12 @@ static func circumcenter(a: Vector2, b: Vector2, c: Vector2) -> Vector2:
 		1 / D * (ad * (c.x - b.x) + bd * (a.x - c.x) + cd * (b.x - a.x)),
 	);
 
+# Returns the circumcenter of a given triangle
 func triangle_center(points: PackedVector2Array, t: int) -> Vector2:
 	var vertices = Array(points_of_triangle(t)).map(func (p): return points[p])
 	return circumcenter(vertices[0], vertices[1], vertices[2]);
 
+# Runs the callback fpr every voronoi edge
 func for_each_voronoi_edge(points: PackedVector2Array, callback: Callable):
 	for e in triangles.size():
 		if e < halfedges[e]:
@@ -100,6 +112,7 @@ func for_each_voronoi_edge(points: PackedVector2Array, callback: Callable):
 			var q = triangle_center(points, triangle_of_edge(halfedges[e]))
 			callback.call(e, p, q)
 
+# Returns all edges around the point the given edge points at
 func edges_around_point(start: int) -> PackedInt32Array:
 	var result = PackedInt32Array()
 	var incoming = start
@@ -115,6 +128,7 @@ func edges_around_point(start: int) -> PackedInt32Array:
 	
 	return result;
 
+# Runs the callback for each voronoi cell
 func for_each_voronoi_cell(points: PackedVector2Array, callback: Callable) -> void:
 	if !index:
 		index = {}
@@ -130,7 +144,7 @@ func for_each_voronoi_cell(points: PackedVector2Array, callback: Callable) -> vo
 		var vertices: PackedVector2Array = PackedVector2Array(tris.map(func(t): return triangle_center(points, t)))
 		callback.call(p, vertices)
 
-# Other utility stuff
+# Checks if all triangles are clockwise and tries to correct them
 func all_tri_cw(points: PackedVector2Array) -> bool:
 	for tri_index in range(floor(triangles.size() / 3.0)):
 		var edges = edges_of_triangle(tri_index)
@@ -144,5 +158,6 @@ func all_tri_cw(points: PackedVector2Array) -> bool:
 			print("flipped tri")
 	return true
 
+# Returns the amount of triangles in the current triangulation
 func tri_count() -> int:
 	return int(floor(triangles.size() / 3.0))

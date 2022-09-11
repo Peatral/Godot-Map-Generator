@@ -1,17 +1,48 @@
-[gd_scene load_steps=4 format=3 uid="uid://x764qbcunq3q"]
+[gd_scene load_steps=11 format=3 uid="uid://d1u5ymm6ogfw8"]
 
-[ext_resource type="Script" path="res://scripts/island_generator.gd" id="1_olrwu"]
+[ext_resource type="Script" path="res://scripts/island_generator.gd" id="1_6c404"]
+[ext_resource type="Script" path="res://scripts/generators/terrainator.gd" id="2_a4lkv"]
 [ext_resource type="Script" path="res://scripts/camera.gd" id="2_sv7te"]
 [ext_resource type="PackedScene" uid="uid://n2u8wauowhhq" path="res://scenes/island_generator_ui.tscn" id="2_y33f8"]
+[ext_resource type="Script" path="res://scripts/terrain_features/basic_types.gd" id="3_ttkfo"]
+[ext_resource type="Script" path="res://scripts/terrain_features/elevation.gd" id="4_ewd5o"]
+[ext_resource type="Script" path="res://scripts/terrain_features/rivers.gd" id="5_fsuho"]
+[ext_resource type="Script" path="res://scripts/terrain_features/moisture.gd" id="6_qqqjh"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_a5vah"]
+
+[sub_resource type="Theme" id="Theme_7hw0g"]
 
 [node name="IslandGenerator" type="Node2D"]
 z_index = 1
-script = ExtResource("1_olrwu")
+script = ExtResource("1_6c404")
+
+[node name="Terrainator" type="Node" parent="."]
+script = ExtResource("2_a4lkv")
+noise = SubResource("FastNoiseLite_a5vah")
+
+[node name="BasicTypes" type="Node" parent="Terrainator"]
+script = ExtResource("3_ttkfo")
+
+[node name="Elevation" type="Node" parent="Terrainator"]
+script = ExtResource("4_ewd5o")
+basic_types_path = NodePath("../BasicTypes")
+
+[node name="Rivers" type="Node" parent="Terrainator"]
+script = ExtResource("5_fsuho")
+basic_types_path = NodePath("../BasicTypes")
+elevation_path = NodePath("../Elevation")
+
+[node name="Moisture" type="Node" parent="Terrainator"]
+script = ExtResource("6_qqqjh")
+basic_types_path = NodePath("../BasicTypes")
+rivers_path = NodePath("../Rivers")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 layer = 3
 
 [node name="IslandGeneratorUI" parent="UILayer" instance=ExtResource("2_y33f8")]
+theme = SubResource("Theme_7hw0g")
 
 [node name="Island" type="Node2D" parent="."]
 z_as_relative = false
