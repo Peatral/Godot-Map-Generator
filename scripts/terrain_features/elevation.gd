@@ -8,6 +8,7 @@ var cell_elevation: PackedFloat32Array
 
 var downslope: PackedInt32Array = PackedInt32Array()
 
+@export_subgroup("Terrain Features")
 @export_node_path(Node) var basic_types_path: NodePath
 @onready var basic_types: TerrainFeatureBasicTypes = get_node(basic_types_path)
 

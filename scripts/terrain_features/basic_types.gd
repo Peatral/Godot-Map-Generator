@@ -9,13 +9,15 @@ var cell_ocean = []
 var cell_water = []
 var cell_coast = []
 
-var noise: Noise
-
 @export var area: Rect2
 
+@export_subgroup("Noise")
+@export var use_feature_seed: bool = true
+@export var noise: Noise
+
 func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> void:
-	noise = FastNoiseLite.new()
-	noise.seed = feature_seed
+	if use_feature_seed:
+		noise.seed = feature_seed
 	
 	cell_ocean.resize(voronator.poly_count())
 	cell_water.resize(voronator.poly_count())

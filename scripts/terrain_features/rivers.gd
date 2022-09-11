@@ -5,6 +5,9 @@ var rivers = PackedInt32Array()
 var volumes = PackedInt32Array()
 var river_start_indices = PackedInt32Array()
 
+@export_range(0.0, 1.0) var vertex_river_chance: float = 0.01
+
+@export_subgroup("Terrain Features")
 @export_node_path(Node) var basic_types_path: NodePath
 @onready var basic_types: TerrainFeatureBasicTypes = get_node(basic_types_path)
 
@@ -20,7 +23,7 @@ func _generate_rivers(voronator: Voronator) -> void:
 	for vertex in voronator.vertex_count():
 		if basic_types.is_vertex_ocean(vertex) || basic_types.is_vertex_coast(vertex):
 			continue
-		if randf() > .99:
+		if randf() > 1 - vertex_river_chance:
 			river_start_indices.append(last_river_idx)
 			var river = PackedInt32Array()
 			river.append(vertex)

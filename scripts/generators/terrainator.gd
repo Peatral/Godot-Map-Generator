@@ -28,7 +28,6 @@ var centers: PackedVector2Array
 @export var area: Rect2
 
 @export var terrain_seed: int = 0
-@export var noise: Noise
 
 @onready var feature_basic_types: TerrainFeatureBasicTypes = $BasicTypes
 @onready var feature_elevation: TerrainFeatureElevation = $Elevation
@@ -66,7 +65,6 @@ func generate():
 	state = State.RUNNING
 	
 	seed(terrain_seed)
-	noise.seed = terrain_seed
 
 	emit_signal("started_generation")
 	centers = PoissonDiscSampling.calculate(area.size, 10, 10, true, terrain_seed)

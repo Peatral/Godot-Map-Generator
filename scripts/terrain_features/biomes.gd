@@ -1,6 +1,9 @@
 class_name TerrainFeatureBiomes
 extends TerrainFeature
 
+@export var biome_list: Array[Resource] = []
+
+@export_subgroup("Terrain Features")
 @export_node_path(Node) var basic_types_path: NodePath
 @onready var basic_types: TerrainFeatureBasicTypes = get_node(basic_types_path)
 
@@ -10,8 +13,6 @@ extends TerrainFeature
 @export_node_path(Node) var moisture_path: NodePath
 @onready var moisture: TerrainFeatureMoisture = get_node(moisture_path)
 
-
-@export var biome_list: Array[Resource] = []
 
 var biomes: PackedInt32Array = PackedInt32Array()
 

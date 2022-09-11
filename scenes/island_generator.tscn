@@ -23,7 +23,7 @@
 [ext_resource type="Resource" uid="uid://b5oyoinaaopv4" path="res://biomes/tropical_seasonal_forest.tres" id="19_alhpt"]
 [ext_resource type="Resource" uid="uid://dcumcmbcgei3b" path="res://biomes/tundra.tres" id="20_xqwdq"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_a5vah"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_fos1y"]
 
 [sub_resource type="Theme" id="Theme_7hw0g"]
 
@@ -33,10 +33,11 @@ script = ExtResource("1_6c404")
 
 [node name="Terrainator" type="Node" parent="."]
 script = ExtResource("2_a4lkv")
-noise = SubResource("FastNoiseLite_a5vah")
+terrain_seed = null
 
 [node name="BasicTypes" type="Node" parent="Terrainator"]
 script = ExtResource("3_ttkfo")
+noise = SubResource("FastNoiseLite_fos1y")
 
 [node name="Elevation" type="Node" parent="Terrainator"]
 script = ExtResource("4_ewd5o")
@@ -54,10 +55,10 @@ rivers_path = NodePath("../Rivers")
 
 [node name="Biomes" type="Node" parent="Terrainator"]
 script = ExtResource("7_t1l1p")
+biome_list = [ExtResource("8_nvw3x"), ExtResource("9_u4e14"), ExtResource("10_ge413"), ExtResource("11_gfuhx"), ExtResource("12_ome5u"), ExtResource("13_tm4e2"), ExtResource("14_7h0hu"), ExtResource("15_37isw"), ExtResource("16_aeaux"), ExtResource("17_0pg1g"), ExtResource("18_2kldy"), ExtResource("19_alhpt"), ExtResource("20_xqwdq")]
 basic_types_path = NodePath("../BasicTypes")
 elevation_path = NodePath("../Elevation")
 moisture_path = NodePath("../Moisture")
-biome_list = [ExtResource("8_nvw3x"), ExtResource("9_u4e14"), ExtResource("10_ge413"), ExtResource("11_gfuhx"), ExtResource("12_ome5u"), ExtResource("13_tm4e2"), ExtResource("14_7h0hu"), ExtResource("15_37isw"), ExtResource("16_aeaux"), ExtResource("17_0pg1g"), ExtResource("18_2kldy"), ExtResource("19_alhpt"), ExtResource("20_xqwdq")]
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 layer = 3
