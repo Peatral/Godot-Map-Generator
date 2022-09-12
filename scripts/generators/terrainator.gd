@@ -70,11 +70,6 @@ func generate():
 	centers = PoissonDiscSampling.calculate(area.size, 10, 10, true, terrain_seed)
 	voronator = Voronator.new(centers)
 	
-	if voronator.error:
-		state = State.ERROR
-		emit_signal("generation_error")
-		return
-	
 	for feature in get_children():
 		if feature is TerrainFeature:
 			feature.feature_seed = terrain_seed

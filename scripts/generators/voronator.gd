@@ -5,8 +5,6 @@ extends RefCounted
 
 var delaunator: Delaunator
 
-var error: bool = false
-
 # All the corners of the voronoi cells
 # a cell references this by index
 var vertices: PackedVector2Array = PackedVector2Array()
@@ -23,10 +21,6 @@ var touches_vertex: Array = []
 # Generates voronoi cells (polygons) based on a delaunay triangulation of the given vertices
 func _init(centers: PackedVector2Array):
 	delaunator = Delaunator.new(centers)
-	if delaunator.error:
-		printerr("Delaunator couldn't run, stopping generation...")
-		error = true
-		return
 	
 	polygon_start_indices.resize(centers.size())
 	delaunator.for_each_voronoi_cell(centers, _add_voronoi_cell)

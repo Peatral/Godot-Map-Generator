@@ -33,7 +33,6 @@ script = ExtResource("1_6c404")
 
 [node name="Terrainator" type="Node" parent="."]
 script = ExtResource("2_a4lkv")
-terrain_seed = null
 
 [node name="BasicTypes" type="Node" parent="Terrainator"]
 script = ExtResource("3_ttkfo")

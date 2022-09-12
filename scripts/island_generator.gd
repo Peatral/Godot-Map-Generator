@@ -1,6 +1,6 @@
 extends Node2D
 
-var thread: Thread
+var gnerator_task_id: int = -1
 
 var highlighted_cell = -1
 
@@ -22,12 +22,11 @@ func _ready():
 	get_tree().paused = true
 
 func generate():
-	if thread || terrainator.state != Terrainator.State.IDLE:
+	if (gnerator_task_id != -1 && !WorkerThreadPool.is_task_completed(gnerator_task_id)) || terrainator.state != Terrainator.State.IDLE:
 		printerr("Tried to start generation process while it was running or finished...")
 		return
 	ui.print_text(tr("UI_INFO_USING_SEED") % terrainator.terrain_seed)
-	thread = Thread.new()
-	thread.start(terrainator.generate)
+	gnerator_task_id = WorkerThreadPool.add_task(terrainator.generate, true, "Generate Terrain")
 
 func gen_finished():
 	ui.print_text(tr("UI_INFO_GENERATION_FINISHED"), true)
@@ -42,6 +41,9 @@ func generate_polygon_areas():
 			continue
 		
 		var poly = Geometry2D.convex_hull(terrainator.voronator.polygon(poly_idx))
+		
+		if poly.size() <= 2:
+			continue
 		
 		var area: PolygonArea = PolygonArea.new()
 		area.name = "Cell_%d" % poly_idx
@@ -77,7 +79,7 @@ func cell_clicked(idx: int):
 	queue_redraw()
 
 func _draw():
-	if thread && thread.is_alive():
+	if gnerator_task_id != -1 && !WorkerThreadPool.is_task_completed(gnerator_task_id):
 		return
 	
 	if terrainator && terrainator.feature_rivers:
