@@ -15,23 +15,26 @@ func _ready():
 	collision.polygon = poly
 	add_child(collision)
 	
-	var polygon: Polygon2D = Polygon2D.new()
-	polygon.name = "Polygon"
-	polygon.polygon = poly
-	polygon.color = color
-	add_child(polygon)
+#	var polygon: Polygon2D = Polygon2D.new()
+#	polygon.name = "Polygon"
+#	polygon.polygon = poly
+#	polygon.color = color
+#	add_child(polygon)
 	
-	var notifier: VisibleOnScreenNotifier2D = VisibleOnScreenNotifier2D.new()
-	notifier.name = "VisibilityNotifier"
-	var bb = Rect2(poly[0], Vector2(0, 0)).grow(5)
-	for p in poly:
-		bb = bb.merge(Rect2(p, Vector2(0, 0)).grow(5))
-	notifier.rect = bb
-	notifier.connect("screen_entered", func(): polygon.visible = true)
-	notifier.connect("screen_exited", func(): polygon.visible = false)
-	add_child(notifier)
+#	var notifier: VisibleOnScreenNotifier2D = VisibleOnScreenNotifier2D.new()
+#	notifier.name = "VisibilityNotifier"
+#	var bb = Rect2(poly[0], Vector2(0, 0)).grow(5)
+#	for p in poly:
+#		bb = bb.merge(Rect2(p, Vector2(0, 0)).grow(5))
+#	notifier.rect = bb
+#	notifier.connect("screen_entered", func(): polygon.visible = true)
+#	notifier.connect("screen_exited", func(): polygon.visible = false)
+#	add_child(notifier)
 	
 	input_pickable = true
+
+func _draw():
+	draw_polygon(poly, PackedColorArray([color]))
 
 func _mouse_enter():
 	mouse_over = true

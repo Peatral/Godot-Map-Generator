@@ -19,6 +19,16 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://scripts/generators/delaunator.gd"
 }, {
+"base": "Camera3D",
+"class": &"FreeLookCamera",
+"language": &"GDScript",
+"path": "res://scripts/camera_3d.gd"
+}, {
+"base": "Node",
+"class": &"IslandGenerator",
+"language": &"GDScript",
+"path": "res://scripts/island_generator.gd"
+}, {
 "base": "Object",
 "class": &"PQEntry",
 "language": &"GDScript",
@@ -69,6 +79,11 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://scripts/terrain_features/rivers.gd"
 }, {
+"base": "Node2D",
+"class": &"TerrainPolyGenerator2D",
+"language": &"GDScript",
+"path": "res://scripts/terrain_poly_generator_2d.gd"
+}, {
 "base": "Node",
 "class": &"Terrainator",
 "language": &"GDScript",
@@ -82,6 +97,8 @@ _global_script_classes=[{
 _global_script_class_icons={
 "Biome": "",
 "Delaunator": "",
+"FreeLookCamera": "",
+"IslandGenerator": "",
 "PQEntry": "",
 "PoissonDiscSampling": "",
 "PolygonArea": "",
@@ -92,6 +109,7 @@ _global_script_class_icons={
 "TerrainFeatureElevation": "",
 "TerrainFeatureMoisture": "",
 "TerrainFeatureRivers": "",
+"TerrainPolyGenerator2D": "",
 "Terrainator": "",
 "Voronator": ""
 }
@@ -107,21 +125,28 @@ config/icon="res://icon.svg"
 
 ui_zoom_in={
 "deadzone": 0.5,
-"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"store_command":true,"alt_pressed":false,"shift_pressed":false,"meta_pressed":false,"command_pressed":false,"button_mask":8,"position":Vector2(351, 244),"global_position":Vector2(351, 244),"factor":1.0,"button_index":4,"pressed":true,"double_click":false,"script":null)
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":8,"position":Vector2(351, 244),"global_position":Vector2(351, 244),"factor":1.0,"button_index":4,"pressed":true,"double_click":false,"script":null)
 ]
 }
 ui_zoom_out={
 "deadzone": 0.5,
-"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"store_command":true,"alt_pressed":false,"shift_pressed":false,"meta_pressed":false,"command_pressed":false,"button_mask":16,"position":Vector2(462, 227),"global_position":Vector2(462, 227),"factor":1.0,"button_index":5,"pressed":true,"double_click":false,"script":null)
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":16,"position":Vector2(462, 227),"global_position":Vector2(462, 227),"factor":1.0,"button_index":5,"pressed":true,"double_click":false,"script":null)
 ]
 }
 ui_click={
 "deadzone": 0.5,
-"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"store_command":true,"alt_pressed":false,"shift_pressed":false,"meta_pressed":false,"command_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"pressed":false,"double_click":false,"script":null)
-, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"store_command":true,"alt_pressed":false,"shift_pressed":false,"meta_pressed":false,"command_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"unicode":0,"echo":false,"script":null)
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"pressed":false,"double_click":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"unicode":0,"echo":false,"script":null)
 ]
 }
 
 [internationalization]
 
 locale/translations=PackedStringArray("res://translations.de.translation", "res://translations.en.translation")
+
+[rendering]
+
+anti_aliasing/quality/msaa_3d=3
+anti_aliasing/quality/screen_space_aa=1
+anti_aliasing/quality/use_taa=true
+anti_aliasing/quality/use_debanding=true

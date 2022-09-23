@@ -1,0 +1,52 @@
+[gd_scene load_steps=21 format=3 uid="uid://vro1owglae23"]
+
+[ext_resource type="Script" path="res://scripts/generators/terrainator.gd" id="1_nlgql"]
+[ext_resource type="Script" path="res://scripts/terrain_features/basic_types.gd" id="2_0lo1g"]
+[ext_resource type="Script" path="res://scripts/terrain_features/elevation.gd" id="3_2ife2"]
+[ext_resource type="Script" path="res://scripts/terrain_features/rivers.gd" id="4_vsibp"]
+[ext_resource type="Script" path="res://scripts/terrain_features/moisture.gd" id="5_4abr7"]
+[ext_resource type="Script" path="res://scripts/terrain_features/biomes.gd" id="6_84h42"]
+[ext_resource type="Resource" uid="uid://ckpr3ca11okcf" path="res://resources/biomes/bare.tres" id="7_5qi2u"]
+[ext_resource type="Resource" uid="uid://dqt2ghgxb5s0g" path="res://resources/biomes/grassland.tres" id="8_o2awu"]
+[ext_resource type="Resource" uid="uid://b4clufv401y8y" path="res://resources/biomes/scorched.tres" id="9_eu7ih"]
+[ext_resource type="Resource" uid="uid://dp5ypoqcfwgno" path="res://resources/biomes/shrubland.tres" id="10_7psna"]
+[ext_resource type="Resource" uid="uid://cnla2h3sevayr" path="res://resources/biomes/snow.tres" id="11_shxqt"]
+[ext_resource type="Resource" uid="uid://cm1bfahmm06og" path="res://resources/biomes/subtropical_desert.tres" id="12_1i8ln"]
+[ext_resource type="Resource" uid="uid://3f7ofdvmp11k" path="res://resources/biomes/taiga.tres" id="13_m7bgr"]
+[ext_resource type="Resource" uid="uid://dwursni6xytit" path="res://resources/biomes/temperate_deciduous_forest.tres" id="14_st2ix"]
+[ext_resource type="Resource" uid="uid://djhsdb4nnm082" path="res://resources/biomes/temperate_desert.tres" id="15_74mdo"]
+[ext_resource type="Resource" uid="uid://cvkal7ix1feu4" path="res://resources/biomes/temperate_rain_forest.tres" id="16_qf7t6"]
+[ext_resource type="Resource" uid="uid://dvfagjj5rw4p2" path="res://resources/biomes/tropical_rain_forest.tres" id="17_xadqi"]
+[ext_resource type="Resource" uid="uid://b5oyoinaaopv4" path="res://resources/biomes/tropical_seasonal_forest.tres" id="18_upxc8"]
+[ext_resource type="Resource" uid="uid://dcumcmbcgei3b" path="res://resources/biomes/tundra.tres" id="19_duhb2"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_fos1y"]
+
+[node name="Terrainator" type="Node"]
+script = ExtResource("1_nlgql")
+poisson_min_distance = 3
+
+[node name="BasicTypes" type="Node" parent="."]
+script = ExtResource("2_0lo1g")
+noise = SubResource("FastNoiseLite_fos1y")
+
+[node name="Elevation" type="Node" parent="."]
+script = ExtResource("3_2ife2")
+basic_types_path = NodePath("../BasicTypes")
+
+[node name="Rivers" type="Node" parent="."]
+script = ExtResource("4_vsibp")
+basic_types_path = NodePath("../BasicTypes")
+elevation_path = NodePath("../Elevation")
+
+[node name="Moisture" type="Node" parent="."]
+script = ExtResource("5_4abr7")
+basic_types_path = NodePath("../BasicTypes")
+rivers_path = NodePath("../Rivers")
+
+[node name="Biomes" type="Node" parent="."]
+script = ExtResource("6_84h42")
+biome_list = [ExtResource("7_5qi2u"), ExtResource("8_o2awu"), ExtResource("9_eu7ih"), ExtResource("10_7psna"), ExtResource("11_shxqt"), ExtResource("12_1i8ln"), ExtResource("13_m7bgr"), ExtResource("14_st2ix"), ExtResource("15_74mdo"), ExtResource("16_qf7t6"), ExtResource("17_xadqi"), ExtResource("18_upxc8"), ExtResource("19_duhb2")]
+basic_types_path = NodePath("../BasicTypes")
+elevation_path = NodePath("../Elevation")
+moisture_path = NodePath("../Moisture")

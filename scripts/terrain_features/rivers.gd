@@ -1,9 +1,10 @@
 class_name TerrainFeatureRivers
 extends TerrainFeature
 
-var rivers = PackedInt32Array()
-var volumes = PackedInt32Array()
-var river_start_indices = PackedInt32Array()
+var rivers := PackedInt32Array()
+var volumes := PackedInt32Array()
+var river_start_indices := PackedInt32Array()
+var max_volume := 0
 
 @export_range(0.0, 1.0) var vertex_river_chance: float = 0.01
 
@@ -23,7 +24,7 @@ func _generate_rivers(voronator: Voronator) -> void:
 	for vertex in voronator.vertex_count():
 		if basic_types.is_vertex_ocean(vertex) || basic_types.is_vertex_coast(vertex):
 			continue
-		if randf() > 1 - vertex_river_chance:
+		if randf() > 1 - vertex_river_chance && !rivers.has(vertex):
 			river_start_indices.append(last_river_idx)
 			var river = PackedInt32Array()
 			river.append(vertex)
@@ -32,7 +33,12 @@ func _generate_rivers(voronator: Voronator) -> void:
 			var next = elevation.downslope[vertex]
 			while next != -1:
 				river.append(next)
-				volume.append(volume.size())
+				var segment_volume := volume.size()
+				volume.append(segment_volume)
+				if max_volume < segment_volume:
+					max_volume = segment_volume
+#				if rivers.has(next):
+#					break
 				next = elevation.downslope[next]
 			rivers.append_array(river)
 			volumes.append_array(volume)

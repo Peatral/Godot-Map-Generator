@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://n2u8wauowhhq"]
+[gd_scene load_steps=8 format=3 uid="uid://n2u8wauowhhq"]
 
 [ext_resource type="Script" path="res://scripts/generator_ui.gd" id="1_k0rom"]
+[ext_resource type="PackedScene" uid="uid://c70vlkokdqkb5" path="res://scenes/generator_panel.tscn" id="2_3s26r"]
 [ext_resource type="Script" path="res://scripts/seed_label.gd" id="3_l8y56"]
 
 [sub_resource type="Animation" id="Animation_axm6f"]
@@ -117,54 +118,16 @@ offset_right = 311.0
 grow_vertical = 2
 mouse_filter = 1
 
-[node name="SeedInputHolder" type="CenterContainer" parent="."]
+[node name="GeneratorInputHolder" type="CenterContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SeedInputPanel" type="PanelContainer" parent="SeedInputHolder"]
-custom_minimum_size = Vector2(300, 150)
-offset_left = 426.0
-offset_top = 249.0
-offset_right = 726.0
-offset_bottom = 399.0
-
-[node name="MarginContainer" type="MarginContainer" parent="SeedInputHolder/SeedInputPanel"]
-offset_right = 300.0
-offset_bottom = 150.0
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="VBoxContainer" type="VBoxContainer" parent="SeedInputHolder/SeedInputPanel/MarginContainer"]
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 290.0
-offset_bottom = 140.0
-
-[node name="Label" type="Label" parent="SeedInputHolder/SeedInputPanel/MarginContainer/VBoxContainer"]
-offset_top = 7.0
-offset_right = 280.0
-offset_bottom = 33.0
-size_flags_vertical = 6
-text = "UI_INPUT_SEED_LABEL"
-
-[node name="SeedInput" type="LineEdit" parent="SeedInputHolder/SeedInputPanel/MarginContainer/VBoxContainer"]
-offset_top = 44.0
-offset_right = 280.0
-offset_bottom = 85.0
-size_flags_vertical = 3
-placeholder_text = "UI_INPUT_SEED_PLACEHOLDER"
-
-[node name="GenerateButton" type="Button" parent="SeedInputHolder/SeedInputPanel/MarginContainer/VBoxContainer"]
-offset_top = 89.0
-offset_right = 280.0
-offset_bottom = 130.0
-size_flags_vertical = 3
-text = "UI_INPUT_GENERATE"
+[node name="GeneratorInputPanel" parent="GeneratorInputHolder" instance=ExtResource("2_3s26r")]
+offset_top = 208.0
+offset_bottom = 440.0
 
 [node name="SeedLabel" type="Label" parent="."]
 anchors_preset = 1
@@ -184,5 +147,5 @@ libraries = {
 "": SubResource("AnimationLibrary_xf2xk")
 }
 
-[connection signal="pressed" from="SeedInputHolder/SeedInputPanel/MarginContainer/VBoxContainer/GenerateButton" to="." method="_on_generate_button_pressed"]
+[connection signal="generate" from="GeneratorInputHolder/GeneratorInputPanel" to="." method="_on_generate"]
 [connection signal="seed_copied" from="SeedLabel" to="." method="_on_seed_copied"]

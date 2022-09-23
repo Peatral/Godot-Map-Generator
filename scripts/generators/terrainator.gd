@@ -29,6 +29,10 @@ var centers: PackedVector2Array
 
 @export var terrain_seed: int = 0
 
+@export_subgroup("Poisson Disc Sampling", "poisson_")
+@export var poisson_min_distance = 10
+@export var poisson_max_tries = 10
+
 @onready var feature_basic_types: TerrainFeatureBasicTypes = $BasicTypes
 @onready var feature_elevation: TerrainFeatureElevation = $Elevation
 @onready var feature_rivers: TerrainFeatureRivers = $Rivers
@@ -67,7 +71,7 @@ func generate():
 	seed(terrain_seed)
 
 	emit_signal("started_generation")
-	centers = PoissonDiscSampling.calculate(area.size, 10, 10, true, terrain_seed)
+	centers = PoissonDiscSampling.calculate(area.size, poisson_min_distance, poisson_max_tries, true, terrain_seed)
 	voronator = Voronator.new(centers)
 	
 	for feature in get_children():

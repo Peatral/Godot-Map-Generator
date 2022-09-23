@@ -1,7 +1,11 @@
 keys,en,de
-UI_INPUT_SEED_LABEL,Seed:,Seed:
-UI_INPUT_SEED_PLACEHOLDER,Enter seed here...,Gib Seed hier ein...
-UI_INPUT_GENERATE,Generate,Generiere
+UI_GENERATOR,Generator,Generator
+UI_GENERATOR_SEED_LABEL,Seed:,Seed:
+UI_GENERATOR_SEED_PLACEHOLDER,Enter seed here...,Gib Seed hier ein...
+UI_GENERATOR_START,Start,Start
+UI_GENERATOR_POINT_DISTRIBUTION,Point Distribution,Punkteverteilung
+UI_GENERATOR_MIN_DISTANCE,Minimal Distance:,Minimaler Abstand:
+UI_GENERATOR_MAX_TRIES,Maximum Tries,Maximale Versuche:
 UI_INFO_USING_SEED,Using seed %d,Nutze Seed %d
 UI_INFO_STARTED_GENERATION,Started generation,Generation gestartet
 UI_INFO_STARTED_VORONATOR,Started Voronator,Voronator Gestartet

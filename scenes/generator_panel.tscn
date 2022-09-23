@@ -1,0 +1,126 @@
+[gd_scene load_steps=3 format=3 uid="uid://c70vlkokdqkb5"]
+
+[ext_resource type="Script" path="res://scripts/generator_panel.gd" id="1_m361y"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_0mbop"]
+font_size = 22
+
+[node name="GeneratorInputPanel" type="PanelContainer"]
+custom_minimum_size = Vector2(350, 0)
+offset_left = 401.0
+offset_top = 203.0
+offset_right = 751.0
+offset_bottom = 445.0
+script = ExtResource("1_m361y")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_right = 350.0
+offset_bottom = 242.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 340.0
+offset_bottom = 232.0
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+offset_right = 330.0
+offset_bottom = 34.0
+text = "UI_GENERATOR"
+label_settings = SubResource("LabelSettings_0mbop")
+horizontal_alignment = 1
+
+[node name="SeedInputHolder" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+offset_top = 44.0
+offset_right = 330.0
+offset_bottom = 75.0
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/SeedInputHolder"]
+offset_top = 2.0
+offset_right = 218.0
+offset_bottom = 28.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "UI_GENERATOR_SEED_LABEL"
+
+[node name="SeedInput" type="LineEdit" parent="MarginContainer/VBoxContainer/SeedInputHolder"]
+offset_left = 222.0
+offset_right = 330.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+placeholder_text = "UI_GENERATOR_SEED_PLACEHOLDER"
+
+[node name="PoissonInputHolder" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+offset_top = 85.0
+offset_right = 330.0
+offset_bottom = 171.0
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PoissonInputHolder"]
+offset_right = 330.0
+offset_bottom = 26.0
+text = "UI_GENERATOR_POINT_DISTRIBUTION"
+horizontal_alignment = 1
+
+[node name="MinDistanceInputHolder" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PoissonInputHolder"]
+offset_top = 30.0
+offset_right = 330.0
+offset_bottom = 56.0
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PoissonInputHolder/MinDistanceInputHolder"]
+offset_right = 241.0
+offset_bottom = 26.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "UI_GENERATOR_MIN_DISTANCE"
+
+[node name="MinDistanceInput" type="HSlider" parent="MarginContainer/VBoxContainer/PoissonInputHolder/MinDistanceInputHolder"]
+offset_left = 245.0
+offset_right = 330.0
+offset_bottom = 26.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+min_value = 1.0
+value = 10.0
+rounded = true
+tick_count = 5
+
+[node name="MaxTriesInputHolder" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PoissonInputHolder"]
+offset_top = 60.0
+offset_right = 330.0
+offset_bottom = 86.0
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PoissonInputHolder/MaxTriesInputHolder"]
+offset_right = 210.0
+offset_bottom = 26.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "UI_GENERATOR_MAX_TRIES"
+
+[node name="MaxTriesInput" type="HSlider" parent="MarginContainer/VBoxContainer/PoissonInputHolder/MaxTriesInputHolder"]
+offset_left = 214.0
+offset_right = 330.0
+offset_bottom = 26.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+min_value = 1.0
+value = 10.0
+rounded = true
+tick_count = 5
+
+[node name="GenerateButton" type="Button" parent="MarginContainer/VBoxContainer"]
+offset_top = 181.0
+offset_right = 330.0
+offset_bottom = 222.0
+size_flags_vertical = 3
+text = "UI_GENERATOR_START"
+
+[connection signal="text_changed" from="MarginContainer/VBoxContainer/SeedInputHolder/SeedInput" to="." method="_on_seed_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/PoissonInputHolder/MinDistanceInputHolder/MinDistanceInput" to="." method="_on_min_distance_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/PoissonInputHolder/MaxTriesInputHolder/MaxTriesInput" to="." method="_on_max_tries_changed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/GenerateButton" to="." method="_on_generate_button_pressed"]

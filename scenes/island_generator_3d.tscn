@@ -1,0 +1,86 @@
+[gd_scene load_steps=14 format=3 uid="uid://2t2g0xd541bt"]
+
+[ext_resource type="Script" path="res://scripts/island_generator.gd" id="1_6c404"]
+[ext_resource type="PackedScene" uid="uid://vro1owglae23" path="res://scenes/terrain_generator_configuration.tscn" id="2_85yhj"]
+[ext_resource type="PackedScene" uid="uid://n2u8wauowhhq" path="res://scenes/island_generator_ui.tscn" id="2_y33f8"]
+[ext_resource type="Script" path="res://scripts/terrain_poly_generator_3d_2.gd" id="4_rl2wg"]
+[ext_resource type="Script" path="res://scripts/camera_3d.gd" id="5_mdeel"]
+[ext_resource type="Material" uid="uid://cosudfdkv3p0t" path="res://materials/water_stylized.material" id="6_6xsk2"]
+[ext_resource type="Material" uid="uid://20sgf3020827" path="res://materials/ground.material" id="7_aun4s"]
+
+[sub_resource type="Theme" id="Theme_7hw0g"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_5gjhg"]
+
+[sub_resource type="Sky" id="Sky_omldr"]
+sky_material = SubResource("PhysicalSkyMaterial_5gjhg")
+
+[sub_resource type="Environment" id="Environment_mkxbp"]
+background_mode = 2
+sky = SubResource("Sky_omldr")
+ambient_light_source = 3
+tonemap_mode = 2
+ssr_enabled = true
+ssao_enabled = true
+ssil_enabled = true
+sdfgi_enabled = true
+glow_enabled = true
+volumetric_fog_density = 0.0
+volumetric_fog_ambient_inject = 16.0
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_d3xl2"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 200.0
+dof_blur_far_transition = 100.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_qoid1"]
+size = Vector2(1000, 1000)
+
+[node name="IslandGenerator" type="Node3D"]
+script = ExtResource("1_6c404")
+poly_gen_path = NodePath("Island")
+
+[node name="Terrainator" parent="." instance=ExtResource("2_85yhj")]
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="IslandGeneratorUI" parent="UILayer" instance=ExtResource("2_y33f8")]
+theme = SubResource("Theme_7hw0g")
+
+[node name="Island" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+script = ExtResource("4_rl2wg")
+terrainator_path = NodePath("../Terrainator")
+ui_path = NodePath("../UILayer/IslandGeneratorUI")
+
+[node name="FreeLookCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.0655, 29.628)
+current = true
+script = ExtResource("5_mdeel")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_mkxbp")
+camera_attributes = SubResource("CameraAttributesPractical_d3xl2")
+
+[node name="DirectionalLight3d" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.756676, -0.469178, 0.455317, 0, 0.696427, 0.717628, -0.65379, -0.543012, 0.526969, 0, 7.67593, 0)
+shadow_enabled = true
+
+[node name="Water" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.289931, 0)
+mesh = SubResource("PlaneMesh_qoid1")
+surface_material_override/0 = ExtResource("6_6xsk2")
+
+[node name="MeshInstance3d" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.37126, 0)
+mesh = SubResource("PlaneMesh_qoid1")
+skeleton = NodePath("../Water")
+surface_material_override/0 = ExtResource("7_aun4s")
+
+[node name="ReflectionProbe" type="ReflectionProbe" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.25, 0)
+visible = false
+extents = Vector3(41.3332, 5.24313, 37.6209)
+
+[connection signal="generate" from="UILayer/IslandGeneratorUI" to="." method="_on_generate"]

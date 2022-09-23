@@ -1,0 +1,90 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/terrain_poly_generator_3d.gd" id="1_lt523"]
+
+[sub_resource type="FogMaterial" id="FogMaterial_pehnm"]
+density = 5.2667
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_mox5o"]
+turbidity = 0.0
+
+[sub_resource type="Sky" id="Sky_e3i61"]
+sky_material = SubResource("PhysicalSkyMaterial_mox5o")
+
+[sub_resource type="Environment" id="Environment_mtrqu"]
+background_mode = 2
+sky = SubResource("Sky_e3i61")
+sdfgi_enabled = true
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0
+
+[sub_resource type="Animation" id="Animation_e8np2"]
+resource_name = "New Anim"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_qe0c8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dwyci"]
+_data = {
+"New Anim": SubResource("Animation_e8np2"),
+"RESET": SubResource("Animation_qe0c8")
+}
+
+[node name="Node3d" type="Node3D"]
+script = ExtResource("1_lt523")
+
+[node name="FogVolume" type="FogVolume" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.72236, 0)
+visible = false
+material = SubResource("FogMaterial_pehnm")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_mtrqu")
+
+[node name="DirectionalLight3d" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.537918, -0.653704, 0.532274, 0, 0.631407, 0.775452, -0.842997, -0.417129, 0.339645, 5.04473, 0, 0)
+
+[node name="Island" type="Node3D" parent="."]
+
+[node name="Camera3d" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3.54771, 0)
+
+[node name="Marker3d" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.69699, 0)
+
+[node name="Camera3d2" type="Camera3D" parent="Marker3d"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.14222)
+current = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Marker3d/Camera3d2")
+autoplay = "New Anim"
+libraries = {
+"": SubResource("AnimationLibrary_dwyci")
+}
