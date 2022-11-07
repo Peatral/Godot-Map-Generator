@@ -1,22 +1,29 @@
 class_name TerrainFeatureRivers
 extends TerrainFeature
 
+
 var rivers := PackedInt32Array()
 var volumes := PackedInt32Array()
 var river_start_indices := PackedInt32Array()
 var max_volume := 0
 
+
 @export_range(0.0, 1.0) var vertex_river_chance: float = 0.01
 
 @export_subgroup("Terrain Features")
-@export_node_path(Node) var basic_types_path: NodePath
-@onready var basic_types: TerrainFeatureBasicTypes = get_node(basic_types_path)
+@export var basic_types: TerrainFeatureBasicTypes
+@export var elevation: TerrainFeatureElevation
 
-@export_node_path(Node) var elevation_path: NodePath
-@onready var elevation: TerrainFeatureElevation = get_node(elevation_path)
 
 func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> void:
 	_generate_rivers(voronator)
+	
+	emit_signal("finished")
+
+
+func _get_finished_message() -> String:
+	return "UI_INFO_GENERATED_RIVERS"
+
 
 # Picks random vertices and follows the path downhill to the ocean to generate rivers
 func _generate_rivers(voronator: Voronator) -> void:
@@ -44,11 +51,14 @@ func _generate_rivers(voronator: Voronator) -> void:
 			volumes.append_array(volume)
 			last_river_idx += river.size()
 
+
 func get_river_count() -> int:
 	return river_start_indices.size()
 
+
 func get_river(idx: int) -> PackedInt32Array:
 	return rivers.slice(river_start_indices[idx], river_start_indices[idx + 1] if idx < river_start_indices.size() - 1 else rivers.size())
+
 
 func get_volume(idx: int) -> PackedInt32Array:
 	return volumes.slice(river_start_indices[idx], river_start_indices[idx + 1] if idx < river_start_indices.size() - 1 else volumes.size())

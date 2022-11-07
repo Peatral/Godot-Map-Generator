@@ -1,15 +1,15 @@
 class_name TerrainFeatureMoisture
 extends TerrainFeature
 
+
 var distance_to_seed = PackedInt32Array()
 var moisture = PackedFloat32Array()
 
-@export_subgroup("Terrain Features")
-@export_node_path(Node) var basic_types_path: NodePath
-@onready var basic_types: TerrainFeatureBasicTypes = get_node(basic_types_path)
 
-@export_node_path(Node) var rivers_path: NodePath
-@onready var rivers: TerrainFeatureRivers = get_node(rivers_path)
+@export_subgroup("Terrain Features")
+@export var basic_types: TerrainFeatureBasicTypes
+@export var rivers: TerrainFeatureRivers
+
 
 func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> void:
 	distance_to_seed.resize(voronator.poly_count())
@@ -44,6 +44,13 @@ func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> vo
 		moisture[cell] = float(1.0 - pow(distance_to_seed[cell] / float(max_dist), 0.5))
 		if is_nan(moisture[cell]):
 			moisture[cell] = 0.0
+	
+	emit_signal("finished")
+
+
+func _get_finished_message() -> String:
+	return "UI_INFO_GENERATED_MOISTURE"
+
 
 # Finds all cells that spread moisture (riverbanks, lakeshores, etc.)
 func find_moisture_seeds(voronator: Voronator) -> PackedInt32Array:
@@ -53,6 +60,7 @@ func find_moisture_seeds(voronator: Voronator) -> PackedInt32Array:
 	for cell in find_lakeshores(voronator):
 		add_to_set(seeds, cell)
 	return seeds
+
 
 # Finds all cells that are riverbanks
 func find_riverbanks(voronator: Voronator) -> PackedInt32Array:
@@ -64,6 +72,7 @@ func find_riverbanks(voronator: Voronator) -> PackedInt32Array:
 				add_to_set(riverbanks, cell)
 	return riverbanks
 
+
 # Finds all cells that are lakeshores
 func find_lakeshores(voronator: Voronator) -> PackedInt32Array:
 	var lakeshores = PackedInt32Array()
@@ -71,6 +80,7 @@ func find_lakeshores(voronator: Voronator) -> PackedInt32Array:
 		if basic_types.is_cell_lake(cell):
 			add_to_set(lakeshores, cell)
 	return lakeshores
+
 
 static func add_to_set(set, value):
 	if !set.has(value):

@@ -1,6 +1,7 @@
 class_name TerrainFeatureElevation
 extends TerrainFeature
 
+
 var distance_to_coast: PackedInt32Array
 
 var vertex_elevation: PackedFloat32Array
@@ -8,9 +9,10 @@ var cell_elevation: PackedFloat32Array
 
 var downslope: PackedInt32Array = PackedInt32Array()
 
+
 @export_subgroup("Terrain Features")
-@export_node_path(Node) var basic_types_path: NodePath
-@onready var basic_types: TerrainFeatureBasicTypes = get_node(basic_types_path)
+@export var basic_types: TerrainFeatureBasicTypes
+
 
 func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> void:
 	distance_to_coast.resize(voronator.vertex_count())
@@ -24,6 +26,11 @@ func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> vo
 	
 	_apply_vertex_elevation(voronator, basic_types)
 	_apply_cell_elevation(voronator)
+
+
+func _get_finished_message() -> String:
+	return "UI_INFO_APPLIED_ELEVATION"
+
 
 # Applies the elevation to all land vertices
 func _apply_vertex_elevation(voronator: Voronator, basic_types: TerrainFeatureBasicTypes) -> void:
@@ -64,6 +71,9 @@ func _apply_vertex_elevation(voronator: Voronator, basic_types: TerrainFeatureBa
 		if distance_to_coast[vertex] == -1:
 			distance_to_coast[vertex] = 0
 		vertex_elevation[vertex] = distance_to_coast[vertex] / float(max_dist)
+	
+	emit_signal("finished")
+
 
 # Applies the elevation to cells based on their vertices
 func _apply_cell_elevation(voronator: Voronator) -> void:

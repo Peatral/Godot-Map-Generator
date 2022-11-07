@@ -118,7 +118,7 @@ _global_script_class_icons={
 
 config/name="Map Generator"
 run/main_scene="res://scenes/island_generator.tscn"
-config/features=PackedStringArray("4.0", "Vulkan Clustered")
+config/features=PackedStringArray("4.0")
 config/icon="res://icon.svg"
 
 [input]

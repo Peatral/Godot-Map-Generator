@@ -8,9 +8,9 @@
 
 [sub_resource type="Theme" id="Theme_7hw0g"]
 
-[node name="IslandGenerator" type="Node2D"]
+[node name="IslandGenerator" type="Node2D" node_paths=PackedStringArray("poly_gen")]
 script = ExtResource("1_6c404")
-poly_gen_path = NodePath("Island")
+poly_gen = NodePath("Island")
 
 [node name="Terrainator" parent="." instance=ExtResource("2_85yhj")]
 
@@ -20,11 +20,11 @@ layer = 3
 [node name="IslandGeneratorUI" parent="UILayer" instance=ExtResource("2_y33f8")]
 theme = SubResource("Theme_7hw0g")
 
-[node name="Island" type="Node2D" parent="."]
+[node name="Island" type="Node2D" parent="." node_paths=PackedStringArray("terrainator", "ui")]
 z_index = 1
 script = ExtResource("6_58wgi")
-terrainator_path = NodePath("../Terrainator")
-ui_path = NodePath("../UILayer/IslandGeneratorUI")
+terrainator = NodePath("../Terrainator")
+ui = NodePath("../UILayer/IslandGeneratorUI")
 
 [node name="BackgroundLayer" type="CanvasLayer" parent="."]
 layer = -3

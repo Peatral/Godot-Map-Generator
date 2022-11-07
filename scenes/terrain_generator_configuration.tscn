@@ -30,23 +30,23 @@ poisson_min_distance = 3
 script = ExtResource("2_0lo1g")
 noise = SubResource("FastNoiseLite_fos1y")
 
-[node name="Elevation" type="Node" parent="."]
+[node name="Elevation" type="Node" parent="." node_paths=PackedStringArray("basic_types")]
 script = ExtResource("3_2ife2")
-basic_types_path = NodePath("../BasicTypes")
+basic_types = NodePath("../BasicTypes")
 
-[node name="Rivers" type="Node" parent="."]
+[node name="Rivers" type="Node" parent="." node_paths=PackedStringArray("basic_types", "elevation")]
 script = ExtResource("4_vsibp")
-basic_types_path = NodePath("../BasicTypes")
-elevation_path = NodePath("../Elevation")
+basic_types = NodePath("../BasicTypes")
+elevation = NodePath("../Elevation")
 
-[node name="Moisture" type="Node" parent="."]
+[node name="Moisture" type="Node" parent="." node_paths=PackedStringArray("basic_types", "rivers")]
 script = ExtResource("5_4abr7")
-basic_types_path = NodePath("../BasicTypes")
-rivers_path = NodePath("../Rivers")
+basic_types = NodePath("../BasicTypes")
+rivers = NodePath("../Rivers")
 
-[node name="Biomes" type="Node" parent="."]
+[node name="Biomes" type="Node" parent="." node_paths=PackedStringArray("basic_types", "elevation", "moisture")]
 script = ExtResource("6_84h42")
 biome_list = [ExtResource("7_5qi2u"), ExtResource("8_o2awu"), ExtResource("9_eu7ih"), ExtResource("10_7psna"), ExtResource("11_shxqt"), ExtResource("12_1i8ln"), ExtResource("13_m7bgr"), ExtResource("14_st2ix"), ExtResource("15_74mdo"), ExtResource("16_qf7t6"), ExtResource("17_xadqi"), ExtResource("18_upxc8"), ExtResource("19_duhb2")]
-basic_types_path = NodePath("../BasicTypes")
-elevation_path = NodePath("../Elevation")
-moisture_path = NodePath("../Moisture")
+basic_types = NodePath("../BasicTypes")
+elevation = NodePath("../Elevation")
+moisture = NodePath("../Moisture")

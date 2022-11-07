@@ -1,6 +1,7 @@
 class_name TerrainFeatureBasicTypes
 extends TerrainFeature
 
+
 var vertex_ocean = []
 var vertex_water = []
 var vertex_coast = []
@@ -9,11 +10,11 @@ var cell_ocean = []
 var cell_water = []
 var cell_coast = []
 
-@export var area: Rect2
 
 @export_subgroup("Noise")
 @export var use_feature_seed: bool = true
 @export var noise: Noise
+
 
 func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> void:
 	if use_feature_seed:
@@ -38,6 +39,13 @@ func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> vo
 	_mark_ocean(centers, voronator)
 	_mark_coast(voronator)
 	_mark_vertices(voronator)
+	
+	emit_signal("finished")
+
+
+func _get_finished_message() -> String:
+	return "UI_INFO_APPLIED_BASIC_TYPES"
+
 
 # Runs the island function for all vertices
 func _run__island_function_vertices(voronator: Voronator) -> void:
@@ -45,9 +53,11 @@ func _run__island_function_vertices(voronator: Voronator) -> void:
 		var vertex = voronator.get_vertex(idx)
 		vertex_water[idx] = !_island_function(vertex)
 
+
 # Decides wether a point is water or land
 func _island_function(pos: Vector2) -> bool:
 	return clamp(noise.get_noise_2d(pos.x, pos.y) + _falloff(pos), -1, 1) > 0
+
 
 # Calculates a _falloff so that the corners and edges are in the water
 func _falloff(point: Vector2) -> float:
@@ -57,10 +67,12 @@ func _falloff(point: Vector2) -> float:
 	var max_distance = sqrt(pow(cos(angle) * area.size.x / 2, 2) + pow(sin(angle) * area.size.y / 2, 2))
 	return clamp((distance / max_distance) * -2 + 1, -1, 1)
 
+
 # Applies water to cells based on its vertices
 func apply_water_to_cells(voronator: Voronator) -> void:
 	for idx in voronator.poly_count():
 		cell_water[idx] = Array(voronator.vertex_indices(idx)).map(func(p): return vertex_water[p]).has(true)
+
 
 # Tries to return a vertex from the top left corner
 func _top_left_corner(centers: PackedVector2Array) -> int:
@@ -71,6 +83,7 @@ func _top_left_corner(centers: PackedVector2Array) -> int:
 			minimal = centers[point]
 			idx = point
 	return idx
+
 
 # Marks all adjacent water cells as ocean starting from the top left corner (flood fill)
 func _mark_ocean(centers: PackedVector2Array, voronator: Voronator) -> void:
@@ -91,6 +104,7 @@ func _mark_ocean(centers: PackedVector2Array, voronator: Voronator) -> void:
 				layers[poly] = layers[current] + 1
 		todo.remove_at(0)
 
+
 # Marks cells as coast cells when they are land and next to the ocean
 func _mark_coast(voronator: Voronator) -> void:
 	for idx in voronator.poly_count():
@@ -100,6 +114,7 @@ func _mark_coast(voronator: Voronator) -> void:
 			if cell_ocean[neighbor] && cell_water[neighbor]:
 				cell_coast[idx] = true
 				break
+
 
 # Marks the terrain type off all vertices based on the surrounding cells
 func _mark_vertices(voronator: Voronator) -> void:
@@ -125,20 +140,26 @@ func _mark_vertices(voronator: Voronator) -> void:
 		vertex_ocean[vertex] = all_water && all_ocean
 		vertex_coast[vertex] = has_ocean && has_land
 
+
 func is_vertex_lake(idx: int) -> bool:
 	return vertex_water[idx] && !vertex_ocean[idx]
+
 
 func is_vertex_ocean(idx: int) -> bool:
 	return vertex_water[idx] && vertex_ocean[idx]
 
+
 func is_vertex_coast(idx: int) -> bool:
 	return vertex_coast[idx] && !is_vertex_ocean(idx) && !is_vertex_lake(idx)
+
 
 func is_cell_lake(idx: int) -> bool:
 	return cell_water[idx] && !cell_ocean[idx]
 
+
 func is_cell_ocean(idx: int) -> bool:
 	return cell_water[idx] && cell_ocean[idx]
+
 
 func is_cell_coast(idx: int) -> bool:
 	return cell_coast[idx] && !is_cell_ocean(idx) && !is_cell_lake(idx)

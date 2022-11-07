@@ -3,13 +3,10 @@ class_name Terrainator
 extends Node
 
 signal started_generation()
-signal applied_basic_types()
-signal applied_elevation()
-signal generated_rivers()
-signal generated_moisture()
-signal generated_biomes()
+signal finished_stage(message: String)
 signal finished_generation()
 signal generation_error()
+
 
 enum State {
 	IDLE,
@@ -33,11 +30,6 @@ var centers: PackedVector2Array
 @export var poisson_min_distance = 10
 @export var poisson_max_tries = 10
 
-@onready var feature_basic_types: TerrainFeatureBasicTypes = $BasicTypes
-@onready var feature_elevation: TerrainFeatureElevation = $Elevation
-@onready var feature_rivers: TerrainFeatureRivers = $Rivers
-@onready var feature_moisture: TerrainFeatureMoisture = $Moisture
-@onready var feature_biomes: TerrainFeatureBiomes = $Biomes
 
 # Take a look at http://www-cs-students.stanford.edu/~amitp/game-programming/polygon-map-generation/
 # 
@@ -77,18 +69,25 @@ func generate():
 	for feature in get_children():
 		if feature is TerrainFeature:
 			feature.feature_seed = terrain_seed
+			feature.area = area
 	
-	feature_basic_types.area = area
-	feature_basic_types._generate_features(centers, voronator)
-	emit_signal("applied_basic_types")
-	feature_elevation._generate_features(centers, voronator)
-	emit_signal("applied_elevation")
-	feature_rivers._generate_features(centers, voronator)
-	emit_signal("generated_rivers")
-	feature_moisture._generate_features(centers, voronator)
-	emit_signal("generated_moisture")
-	feature_biomes._generate_features(centers, voronator)
-	emit_signal("generated_biomes")
+	for child in get_children():
+		if not child is TerrainFeature:
+			continue
+		
+		child._generate_features(centers, voronator)
+		emit_signal("finished_stage", child._get_finished_message())
 	
 	state = State.FINISHED
 	emit_signal("finished_generation")
+
+
+func get_features() -> Array[TerrainFeature]:
+	var array = []
+	
+	for child in get_children():
+		if not child is TerrainFeature:
+			continue
+		array.append(child)
+	
+	return array

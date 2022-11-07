@@ -1,20 +1,17 @@
 class_name TerrainFeatureBiomes
 extends TerrainFeature
 
-@export var biome_list: Array[Resource] = []
+
+@export var biome_list: Array[Biome] = []
 
 @export_subgroup("Terrain Features")
-@export_node_path(Node) var basic_types_path: NodePath
-@onready var basic_types: TerrainFeatureBasicTypes = get_node(basic_types_path)
-
-@export_node_path(Node) var elevation_path: NodePath
-@onready var elevation: TerrainFeatureElevation = get_node(elevation_path)
-
-@export_node_path(Node) var moisture_path: NodePath
-@onready var moisture: TerrainFeatureMoisture = get_node(moisture_path)
+@export var basic_types: TerrainFeatureBasicTypes
+@export var elevation: TerrainFeatureElevation
+@export var moisture: TerrainFeatureMoisture
 
 
 var biomes: PackedInt32Array = PackedInt32Array()
+
 
 func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> void:
 	biomes.resize(voronator.poly_count())
@@ -61,6 +58,12 @@ func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> vo
 			else:
 				offset += calced_biome_probs[idx]
 	
+	emit_signal("finished")
+
+
+func _get_finished_message() -> String:
+	return "UI_INFO_GENERATED_BIOMES"
+
 
 func get_biome(idx: int) -> Biome:
 	return biome_list[biomes[idx]]
