@@ -67,16 +67,14 @@ func generate():
 	voronator = Voronator.new(centers)
 	
 	for feature in get_children():
-		if feature is TerrainFeature:
-			feature.feature_seed = terrain_seed
-			feature.area = area
-	
-	for child in get_children():
-		if not child is TerrainFeature:
+		if not feature is TerrainFeature:
 			continue
 		
-		child._generate_features(centers, voronator)
-		emit_signal("finished_stage", child._get_finished_message())
+		feature.feature_seed = terrain_seed
+		feature.area = area
+		
+		feature._generate_features(centers, voronator)
+		emit_signal("finished_stage", feature._get_finished_message())
 	
 	state = State.FINISHED
 	emit_signal("finished_generation")
