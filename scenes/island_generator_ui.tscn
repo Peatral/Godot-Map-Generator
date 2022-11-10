@@ -126,8 +126,8 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="GeneratorInputPanel" parent="GeneratorInputHolder" instance=ExtResource("2_3s26r")]
-offset_top = 208.0
-offset_bottom = 440.0
+offset_top = 193.0
+offset_bottom = 455.0
 
 [node name="SeedLabel" type="Label" parent="."]
 anchors_preset = 1

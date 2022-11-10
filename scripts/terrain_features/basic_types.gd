@@ -34,7 +34,7 @@ func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> vo
 	vertex_water.fill(false)
 	vertex_coast.fill(false)
 	
-	_run__island_function_vertices(voronator)
+	_run_island_function_vertices(voronator)
 	apply_water_to_cells(voronator)
 	_mark_ocean(centers, voronator)
 	_mark_coast(voronator)
@@ -48,7 +48,7 @@ func _get_finished_message() -> String:
 
 
 # Runs the island function for all vertices
-func _run__island_function_vertices(voronator: Voronator) -> void:
+func _run_island_function_vertices(voronator: Voronator) -> void:
 	for idx in voronator.vertex_count():
 		var vertex = voronator.get_vertex(idx)
 		vertex_water[idx] = !_island_function(vertex)

@@ -14,11 +14,6 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://scripts/biome.gd"
 }, {
-"base": "RefCounted",
-"class": &"Delaunator",
-"language": &"GDScript",
-"path": "res://scripts/generators/delaunator.gd"
-}, {
 "base": "Camera3D",
 "class": &"FreeLookCamera",
 "language": &"GDScript",
@@ -33,11 +28,6 @@ _global_script_classes=[{
 "class": &"PQEntry",
 "language": &"GDScript",
 "path": "res://scripts/pq_entry.gd"
-}, {
-"base": "RefCounted",
-"class": &"PoissonDiscSampling",
-"language": &"GDScript",
-"path": "res://scripts/generators/poisson_disc_sampling.gd"
 }, {
 "base": "Area2D",
 "class": &"PolygonArea",
@@ -96,11 +86,9 @@ _global_script_classes=[{
 }]
 _global_script_class_icons={
 "Biome": "",
-"Delaunator": "",
 "FreeLookCamera": "",
 "IslandGenerator": "",
 "PQEntry": "",
-"PoissonDiscSampling": "",
 "PolygonArea": "",
 "PriorityQueue": "",
 "TerrainFeature": "",

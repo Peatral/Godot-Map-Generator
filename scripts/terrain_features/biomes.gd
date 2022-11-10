@@ -4,6 +4,10 @@ extends TerrainFeature
 
 @export var biome_list: Array[Biome] = []
 
+@export_subgroup("Noise")
+@export var use_feature_seed: bool = true
+@export var noise: Noise
+
 @export_subgroup("Terrain Features")
 @export var basic_types: TerrainFeatureBasicTypes
 @export var elevation: TerrainFeatureElevation
@@ -14,6 +18,9 @@ var biomes: PackedInt32Array = PackedInt32Array()
 
 
 func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> void:
+	if use_feature_seed:
+		noise.seed = feature_seed
+	
 	biomes.resize(voronator.poly_count())
 	biomes.fill(0)
 	
@@ -41,14 +48,21 @@ func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> vo
 				probs += prob.x + prob.y
 		
 		if calced_biome_probs.keys().size() == 0:
-			printerr("Did not find a fitting biome for elevation %f and moisture %f" % [cell_elevation, cell_moisture])
+			#printerr("Did not find a fitting biome for elevation %f and moisture %f" % [cell_elevation, cell_moisture])
 			continue
 		elif calced_biome_probs.keys().size() == 1:
 			biomes[cell] = calced_biome_probs.keys()[0]
 			biome_distribution[biomes[cell]] += 1
 			continue
 		
-		var random = randf_range(0, probs)
+		
+		var poly = voronator.vertex_indices(cell)
+		var avg = Vector2()
+		for p in poly:
+			avg += voronator.get_vertex(p)
+		avg /= poly.size()
+		
+		var random = noise.get_noise_2d(avg.x, avg.y) * probs
 		var offset = 0
 		for idx in calced_biome_probs.keys():
 			var prob_to_check = calced_biome_probs[idx] + offset

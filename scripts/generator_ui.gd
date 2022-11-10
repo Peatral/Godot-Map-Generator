@@ -17,5 +17,5 @@ func print_text(text, append=false, newline=true):
 func _on_seed_copied():
 	animation_player.play("ui_seed_copy")
 
-func _on_generate(seed: String, min_distance: int, max_tries: int):
-	emit_signal("generate", seed, min_distance, max_tries)
+func _on_generate(seed: String, min_distance: int, max_tries: int, centroid_lerp: float):
+	emit_signal("generate", seed, min_distance, max_tries, centroid_lerp)

@@ -1,6 +1,5 @@
 # Wrapper to the delaunator to handle the voronoi cells more efficiently
 class_name Voronator
-extends RefCounted
 
 
 var delaunator: Delaunator
@@ -18,12 +17,19 @@ var last_polygon_end: int = 0 # used while building the polygons
 # The list of polygons touching the point at the index
 var touches_vertex: Array = []
 
+var centroid_lerp = 0.1
+
 # Generates voronoi cells (polygons) based on a delaunay triangulation of the given vertices
-func _init(centers: PackedVector2Array):
-	delaunator = Delaunator.new(centers)
-	
+func _init(centers: PackedVector2Array, p_centroid_lerp):
+	delaunator = Delaunator.new()
+	delaunator.triangulate(centers)
+	centroid_lerp = p_centroid_lerp
 	polygon_start_indices.resize(centers.size())
-	delaunator.for_each_voronoi_cell(centers, _add_voronoi_cell)
+	
+	for p in centers.size():
+		var tris := Array(delaunator.triangles_around_point(p))
+		var vertices: PackedVector2Array = PackedVector2Array(tris.map(func(t): return delaunator.triangle_center(centers, t, centroid_lerp)))
+		_add_voronoi_cell(p, vertices)
 
 # Add a voronoi cell internally and updates the touches_vertex array
 func _add_voronoi_cell(center: int, points: PackedVector2Array):
@@ -44,7 +50,7 @@ func _add_voronoi_cell(center: int, points: PackedVector2Array):
 
 # Returns all neighboring polygons to the given polygon
 func adjacent_polygons(v: int) -> PackedInt32Array:
-	return PackedInt32Array(Array(delaunator.edges_around_point(delaunator.index[v])).map(func(e): return delaunator.triangles[e]))
+	return PackedInt32Array(Array(delaunator.edges_around_point(v)).map(func(e): return delaunator.get_triangles()[e]))
 
 # Returns the point indices of a polygon
 func vertex_indices(v: int) -> PackedInt32Array:

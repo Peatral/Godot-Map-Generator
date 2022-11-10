@@ -5,10 +5,16 @@ UI_GENERATOR_SEED_PLACEHOLDER,Enter seed here...,Gib Seed hier ein...
 UI_GENERATOR_START,Start,Start
 UI_GENERATOR_POINT_DISTRIBUTION,Point Distribution,Punkteverteilung
 UI_GENERATOR_MIN_DISTANCE,Minimal Distance:,Minimaler Abstand:
-UI_GENERATOR_MAX_TRIES,Maximum Tries,Maximale Versuche:
+UI_GENERATOR_MAX_TRIES,Maximum Tries:,Maximale Versuche:
+UI_GENERATOR_CENTROID_LERP,Centroid Interpolation:,Centroid Interpolation:
+,,
+,,
+,,
 UI_INFO_USING_SEED,Using seed %d,Nutze Seed %d
+UI_INFO_SAMPLED_POINTS,Sampled Points,Punkte gewählt
+UI_INFO_TRIANGULATED_POINTS,Triangulated Points,Punkte trianguliert
 UI_INFO_STARTED_GENERATION,Started generation,Generation gestartet
-UI_INFO_STARTED_VORONATOR,Started Voronator,Voronator Gestartet
+UI_INFO_STARTED_VORONATOR,Started Voronator,Voronator gestartet
 UI_INFO_APPLIED_BASIC_TYPES,Applied basic types,Grundtypen angewendet
 UI_INFO_APPLIED_ELEVATION,Applied elevation,Höhe angewendet
 UI_INFO_GENERATED_RIVERS,Generated rivers,Flüsse erzeugt
@@ -17,7 +23,13 @@ UI_INFO_GENERATED_BIOMES,Generated biomes,Biome erzeugt
 UI_INFO_GENERATION_FINISHED,Finished generation,Generation beendet
 UI_INFO_GENERATION_ERROR,Generation Error,Fehler bei Generation
 UI_INFO_SEED,Seed: %d,Seed: %d
+,,
+,,
+,,
 UI_CLICK_TO_COPY,Click to copy,Klicke um zu kopieren
+,,
+,,
+,,
 BIOME_SNOW,Snow,Schnee
 BIOME_TUNDRA,Tundra,Tundra
 BIOME_BARE,Bare,Kahl
