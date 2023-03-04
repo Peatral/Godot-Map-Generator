@@ -1,12 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://2t2g0xd541bt"]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://scripts/island_generator.gd" id="1_6c404"]
 [ext_resource type="PackedScene" uid="uid://vro1owglae23" path="res://scenes/terrain_generator_configuration.tscn" id="2_85yhj"]
 [ext_resource type="PackedScene" uid="uid://n2u8wauowhhq" path="res://scenes/island_generator_ui.tscn" id="2_y33f8"]
 [ext_resource type="Script" path="res://scripts/terrain_poly_generator_3d_2.gd" id="4_rl2wg"]
 [ext_resource type="Script" path="res://scripts/camera_3d.gd" id="5_mdeel"]
-[ext_resource type="Material" uid="uid://cosudfdkv3p0t" path="res://materials/water_stylized.material" id="6_6xsk2"]
-[ext_resource type="Material" uid="uid://20sgf3020827" path="res://materials/ground.material" id="7_aun4s"]
+[ext_resource type="Material" uid="uid://cosudfdkv3p0t" path="res://assets/materials/water_stylized.material" id="6_6xsk2"]
+[ext_resource type="Material" uid="uid://20sgf3020827" path="res://assets/materials/ground.material" id="7_aun4s"]
 
 [sub_resource type="Theme" id="Theme_7hw0g"]
 

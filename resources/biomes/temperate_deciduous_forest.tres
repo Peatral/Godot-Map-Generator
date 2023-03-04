@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=4 format=3 uid="uid://dwursni6xytit"]
+[gd_resource type="Resource" script_class="Biome" load_steps=4 format=3 uid="uid://dwursni6xytit"]
 
 [ext_resource type="Script" path="res://scripts/biome.gd" id="1_31yg7"]
 

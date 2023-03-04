@@ -34,27 +34,6 @@ var centers: PackedVector2Array
 @export var poisson_min_distance: float = 10
 @export var poisson_max_tries: int = 10
 
-
-# Take a look at http://www-cs-students.stanford.edu/~amitp/game-programming/polygon-map-generation/
-# 
-# Currently implemented:
-# 1. Polygons
-# 2. Map representation (more or less)
-# 3. Islands
-# 4. Elevation
-# 5. Rivers
-# 6. Moisture
-# 7. Biomes
-# 
-# Being worked on:
-# -
-#
-# Todo:
-# 8. Noisy edges
-# 9. More noise
-# 10. Smooth biome transitions
-# 11. Distorted biome transitions
-
 # A terrain generator using the voronator as a base
 
 # Call to start generation process
@@ -108,7 +87,7 @@ func generate():
 
 
 func get_features() -> Array[TerrainFeature]:
-	var array = []
+	var array: Array[TerrainFeature] = []
 	
 	for child in get_children():
 		if not child is TerrainFeature:

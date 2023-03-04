@@ -103,12 +103,12 @@ func _draw():
 				draw_line(terrainator.voronator.get_vertex(vertex), terrainator.voronator.get_vertex(feature_elevation.downslope[vertex]), Color.GREEN, 1.5)
 				draw_circle(terrainator.voronator.get_vertex(feature_elevation.downslope[vertex]), 1.5, Color.GREEN)
 		for vertex in terrainator.voronator.vertex_indices(highlighted_cell):
-			draw_string(preload("res://m5x7.ttf"), terrainator.voronator.get_vertex(vertex), str(feature_elevation.distance_to_coast[vertex]), HORIZONTAL_ALIGNMENT_LEFT, -1, 4)
+			draw_string(preload("res://assets/fonts/m5x7.ttf"), terrainator.voronator.get_vertex(vertex), str(feature_elevation.distance_to_coast[vertex]), HORIZONTAL_ALIGNMENT_LEFT, -1, 4)
 
 		var poly = terrainator.voronator.polygon(highlighted_cell)
 		var tris = Geometry2D.triangulate_polygon(poly)
 		for idx in tris.size():
-			var point = draw_line(poly[tris[idx]], poly[tris[(idx + 1) % tris.size()]], Color.YELLOW)
+			draw_line(poly[tris[idx]], poly[tris[(idx + 1) % tris.size()]], Color.YELLOW)
 
 
 func cell_fill_color(idx: int) -> Color:

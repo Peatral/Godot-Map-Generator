@@ -8,106 +8,16 @@
 
 config_version=5
 
-_global_script_classes=[{
-"base": "Resource",
-"class": &"Biome",
-"language": &"GDScript",
-"path": "res://scripts/biome.gd"
-}, {
-"base": "Camera3D",
-"class": &"FreeLookCamera",
-"language": &"GDScript",
-"path": "res://scripts/camera_3d.gd"
-}, {
-"base": "Node",
-"class": &"IslandGenerator",
-"language": &"GDScript",
-"path": "res://scripts/island_generator.gd"
-}, {
-"base": "Object",
-"class": &"PQEntry",
-"language": &"GDScript",
-"path": "res://scripts/pq_entry.gd"
-}, {
-"base": "Area2D",
-"class": &"PolygonArea",
-"language": &"GDScript",
-"path": "res://scripts/polygon_area.gd"
-}, {
-"base": "Object",
-"class": &"PriorityQueue",
-"language": &"GDScript",
-"path": "res://scripts/priority_queue.gd"
-}, {
-"base": "Node",
-"class": &"TerrainFeature",
-"language": &"GDScript",
-"path": "res://scripts/terrain_features/terrain_feature.gd"
-}, {
-"base": "TerrainFeature",
-"class": &"TerrainFeatureBasicTypes",
-"language": &"GDScript",
-"path": "res://scripts/terrain_features/basic_types.gd"
-}, {
-"base": "TerrainFeature",
-"class": &"TerrainFeatureBiomes",
-"language": &"GDScript",
-"path": "res://scripts/terrain_features/biomes.gd"
-}, {
-"base": "TerrainFeature",
-"class": &"TerrainFeatureElevation",
-"language": &"GDScript",
-"path": "res://scripts/terrain_features/elevation.gd"
-}, {
-"base": "TerrainFeature",
-"class": &"TerrainFeatureMoisture",
-"language": &"GDScript",
-"path": "res://scripts/terrain_features/moisture.gd"
-}, {
-"base": "TerrainFeature",
-"class": &"TerrainFeatureRivers",
-"language": &"GDScript",
-"path": "res://scripts/terrain_features/rivers.gd"
-}, {
-"base": "Node2D",
-"class": &"TerrainPolyGenerator2D",
-"language": &"GDScript",
-"path": "res://scripts/terrain_poly_generator_2d.gd"
-}, {
-"base": "Node",
-"class": &"Terrainator",
-"language": &"GDScript",
-"path": "res://scripts/generators/terrainator.gd"
-}, {
-"base": "RefCounted",
-"class": &"Voronator",
-"language": &"GDScript",
-"path": "res://scripts/generators/voronator.gd"
-}]
-_global_script_class_icons={
-"Biome": "",
-"FreeLookCamera": "",
-"IslandGenerator": "",
-"PQEntry": "",
-"PolygonArea": "",
-"PriorityQueue": "",
-"TerrainFeature": "",
-"TerrainFeatureBasicTypes": "",
-"TerrainFeatureBiomes": "",
-"TerrainFeatureElevation": "",
-"TerrainFeatureMoisture": "",
-"TerrainFeatureRivers": "",
-"TerrainPolyGenerator2D": "",
-"Terrainator": "",
-"Voronator": ""
-}
-
 [application]
 
 config/name="Map Generator"
 run/main_scene="res://scenes/island_generator.tscn"
 config/features=PackedStringArray("4.0")
 config/icon="res://icon.svg"
+
+[editor_plugins]
+
+enabled=PackedStringArray()
 
 [input]
 
@@ -124,13 +34,13 @@ ui_zoom_out={
 ui_click={
 "deadzone": 0.5,
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"pressed":false,"double_click":false,"script":null)
-, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"unicode":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://translations.de.translation", "res://translations.en.translation")
+locale/translations=PackedStringArray("res://assets/internationalization/translations.de.translation", "res://assets/internationalization/translations.en.translation")
 
 [rendering]
 

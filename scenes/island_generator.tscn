@@ -39,7 +39,6 @@ color = Color(0.2, 0.2, 0.356863, 1)
 
 [node name="Camera2d" type="Camera2D" parent="."]
 anchor_mode = 0
-current = true
 script = ExtResource("5_eod0d")
 
 [connection signal="generate" from="UILayer/IslandGeneratorUI" to="." method="_on_generate"]
