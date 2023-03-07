@@ -81,7 +81,7 @@ func cell_clicked(idx: int):
 		text += "Moisture: %f\n" % moisture
 		text += "Biome: %s\n" % tr(biome.name)
 		text += "Poly:\n"
-		for vertex in terrainator.voronator.vertex_indices(highlighted_cell):
+		for vertex in terrainator.voronator.vertices_of_cell(highlighted_cell):
 			text += "%d (%f)\n" % [vertex, feature_elevation.vertex_elevation[vertex]]
 	else:
 		text = "Invalid index: %d" % idx
@@ -91,21 +91,21 @@ func cell_clicked(idx: int):
 
 func _draw():
 	if highlighted_cell != -1:
-		for cell in terrainator.voronator.adjacent_polygons(highlighted_cell):
+		for cell in terrainator.voronator.adjacent_cells(highlighted_cell):
 			if has_node("Cell_%d" % cell):
 				draw_cell(cell, Color.DARK_ORANGE, false)
 		draw_cell(highlighted_cell, Color.RED, false)
 
-		for vertex in terrainator.voronator.vertex_indices(highlighted_cell):
-			draw_circle(terrainator.voronator.get_vertex(vertex), .5, Color.DIM_GRAY)
+		for vertex in terrainator.voronator.vertices_of_cell(highlighted_cell):
+			draw_circle(terrainator.voronator.get_vertex_position(vertex), .5, Color.DIM_GRAY)
 
 			if feature_elevation.downslope[vertex] != -1:
-				draw_line(terrainator.voronator.get_vertex(vertex), terrainator.voronator.get_vertex(feature_elevation.downslope[vertex]), Color.GREEN, 1.5)
-				draw_circle(terrainator.voronator.get_vertex(feature_elevation.downslope[vertex]), 1.5, Color.GREEN)
-		for vertex in terrainator.voronator.vertex_indices(highlighted_cell):
-			draw_string(preload("res://assets/fonts/m5x7.ttf"), terrainator.voronator.get_vertex(vertex), str(feature_elevation.distance_to_coast[vertex]), HORIZONTAL_ALIGNMENT_LEFT, -1, 4)
+				draw_line(terrainator.voronator.get_vertex_position(vertex), terrainator.voronator.get_vertex_position(feature_elevation.downslope[vertex]), Color.GREEN, 1.5)
+				draw_circle(terrainator.voronator.get_vertex_position(feature_elevation.downslope[vertex]), 1.5, Color.GREEN)
+		for vertex in terrainator.voronator.vertices_of_cell(highlighted_cell):
+			draw_string(preload("res://assets/fonts/m5x7.ttf"), terrainator.voronator.get_vertex_position(vertex), str(feature_elevation.distance_to_coast[vertex]), HORIZONTAL_ALIGNMENT_LEFT, -1, 4)
 
-		var poly = terrainator.voronator.polygon(highlighted_cell)
+		var poly = terrainator.voronator.polygon_of_cell(highlighted_cell)
 		var tris = Geometry2D.triangulate_polygon(poly)
 		for idx in tris.size():
 			draw_line(poly[tris[idx]], poly[tris[(idx + 1) % tris.size()]], Color.YELLOW)
@@ -128,7 +128,7 @@ func cell_fill_color(idx: int) -> Color:
 
 
 func draw_cell(idx: int, color: Color, filled: bool):
-	var cell = terrainator.voronator.polygon(idx)
+	var cell = terrainator.voronator.polygon_of_cell(idx)
 	if cell.size() > 2:
 		# The convex hull should be a renderable poly and nearly indestiguishable
 		var poly = Geometry2D.convex_hull(cell)
