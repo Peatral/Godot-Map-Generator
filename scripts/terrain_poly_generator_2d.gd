@@ -33,7 +33,7 @@ func generate():
 		if feature_basic_types.is_cell_ocean(cell_idx):
 			continue
 		
-    var poly = Geometry2D.convex_hull(terrainator.voronator.polygon_of_cell(cell_idx))
+		var poly = Geometry2D.convex_hull(terrainator.voronator.polygon_of_cell(cell_idx))
 		
 		if poly.size() <= 2:
 			continue
