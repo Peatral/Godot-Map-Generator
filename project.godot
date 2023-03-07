@@ -40,7 +40,7 @@ ui_click={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://assets/internationalization/translations.de.translation", "res://assets/internationalization/translations.en.translation")
+locale/translations=PackedStringArray("res://assets/l10n/translations.de.translation", "res://assets/l10n/translations.en.translation")
 
 [rendering]
 

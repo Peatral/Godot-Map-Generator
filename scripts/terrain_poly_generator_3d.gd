@@ -16,7 +16,7 @@ func generate():
 	
 	var meshinstance: MeshInstance3D
 	var mesh: ArrayMesh
-	for poly_idx in terrainator.voronator.poly_count():
+	for poly_idx in terrainator.voronator.cell_count():
 		if generated_surfaces % 256 == 0:
 			meshinstance = MeshInstance3D.new()
 			mesh = ArrayMesh.new()
@@ -25,8 +25,8 @@ func generate():
 		if terrainator.feature_basic_types.is_cell_ocean(poly_idx):
 			continue
 		
-		var poly = terrainator.voronator.polygon(poly_idx)
-		var poly_indices = terrainator.voronator.vertex_indices(poly_idx)
+		var poly = terrainator.voronator.polygon_of_cell(poly_idx)
+		var poly_indices = terrainator.voronator.vertices_of_cell(poly_idx)
 		var hull = Geometry2D.convex_hull(poly)
 		var hull_indices := PackedInt32Array()
 		

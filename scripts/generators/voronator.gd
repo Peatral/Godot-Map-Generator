@@ -1,37 +1,40 @@
-# Wrapper to the delaunator to handle the voronoi cells more efficiently
+## Wrapper to the delaunator to handle the voronoi cells more efficiently
+## Vertex is always the index in the vertices array, point is the actual position of said vertex.
 class_name Voronator
+extends RefCounted
 
-
+## The delaunator this Voronator uses
 var delaunator: Delaunator
 
-# All the corners of the voronoi cells
-# a cell references this by index
+## All the corners of the voronoi cells
+## a cell references this by index
 var vertices: PackedVector2Array = PackedVector2Array()
 
-# The list of voronoi polygons
-# a cell is at the index of its center point ( -> vertices[index])
-var polygons: PackedInt32Array = PackedInt32Array()
-var polygon_start_indices: PackedInt32Array = PackedInt32Array()
-var last_polygon_end: int = 0 # used while building the polygons
+## The list of voronoi cells
+## a cell is at the index of its center point ( -> vertices[index])
+var cells: PackedInt32Array = PackedInt32Array()
+var cell_start_indices: PackedInt32Array = PackedInt32Array()
+var last_cell_end: int = 0 # used while building the cells
 
-# The list of polygons touching the point at the index
+## The list of cells touching the point at the index
 var touches_vertex: Array = []
 
+## Represents the lerp amount between circumcenter and centroid
 var centroid_lerp = 0.1
 
-# Generates voronoi cells (polygons) based on a delaunay triangulation of the given vertices
+## Generates voronoi cells based on a delaunay triangulation of the given vertices
 func _init(centers: PackedVector2Array, p_centroid_lerp):
 	delaunator = Delaunator.new()
 	delaunator.triangulate(centers)
 	centroid_lerp = p_centroid_lerp
-	polygon_start_indices.resize(centers.size())
+	cell_start_indices.resize(centers.size())
 	
 	for p in centers.size():
 		var tris := Array(delaunator.triangles_around_point(p))
 		var vertices: PackedVector2Array = PackedVector2Array(tris.map(func(t): return delaunator.triangle_center(centers, t, centroid_lerp)))
 		_add_voronoi_cell(p, vertices)
 
-# Add a voronoi cell internally and updates the touches_vertex array
+## Add a voronoi cell internally and updates the touches_vertex array
 func _add_voronoi_cell(center: int, points: PackedVector2Array):
 	var indices = PackedInt32Array()
 	for vertex in points:
@@ -44,47 +47,47 @@ func _add_voronoi_cell(center: int, points: PackedVector2Array):
 	for index in indices:
 		if !touches_vertex[index].has(center):
 			touches_vertex[index].append(center)
-	polygons.append_array(indices)
-	polygon_start_indices[center] = last_polygon_end
-	last_polygon_end += indices.size()
+	cells.append_array(indices)
+	cell_start_indices[center] = last_cell_end
+	last_cell_end += indices.size()
 
-# Returns all neighboring polygons to the given polygon
-func adjacent_polygons(v: int) -> PackedInt32Array:
-	return PackedInt32Array(Array(delaunator.edges_around_point(v)).map(func(e): return delaunator.get_triangles()[e]))
+## Returns all neighboring cells to the given cell
+func adjacent_cells(cell: int) -> PackedInt32Array:
+	return PackedInt32Array(Array(delaunator.edges_around_point(cell)).map(func(edge): return delaunator.get_triangles()[edge]))
 
-# Returns the point indices of a polygon
-func vertex_indices(v: int) -> PackedInt32Array:
-	if v >= polygon_start_indices.size():
+## Returns the vertices of a cell
+func vertices_of_cell(cell: int) -> PackedInt32Array:
+	if cell >= cell_start_indices.size():
 		return PackedInt32Array()
-	return polygons.slice(polygon_start_indices[v], polygon_start_indices[v + 1] if v + 1 < polygon_start_indices.size() else last_polygon_end)
+	return cells.slice(cell_start_indices[cell], cell_start_indices[cell + 1] if cell + 1 < cell_start_indices.size() else last_cell_end)
 
-# Returns the actual vertices of a polygon
-func polygon(v: int) -> PackedVector2Array:
-	return PackedVector2Array(Array(vertex_indices(v)).map(func(p): return vertices[p]))
+## Returns the actual points of a cell
+func polygon_of_cell(cell: int) -> PackedVector2Array:
+	return PackedVector2Array(Array(vertices_of_cell(cell)).map(func(p): return vertices[p]))
 
-# Returns the amount of voronoi cells in the current graph
-func poly_count() -> int:
-	return polygon_start_indices.size()
+## Returns the amount of voronoi cells in the current graph
+func cell_count() -> int:
+	return cell_start_indices.size()
 
-# Returns the adjacent vertices to a given voronoi vertex
-# Seems kinda inefficient but because there are so few neighbors it should be fine
-func adjacent_vertices(point: int) -> PackedInt32Array:
-	var adjacent_polys: Array = touches_vertex[point]
+## Returns the adjacent vertices to a given voronoi vertex
+## Seems kinda inefficient but because there are so few neighbors it should be fine
+func adjacent_vertices(vertex: int) -> PackedInt32Array:
+	var adjacent_polys: Array = touches_vertex[vertex]
 	var adjacents: PackedInt32Array = PackedInt32Array()
-	for poly in adjacent_polys.map(func(p): return vertex_indices(p)):
+	for poly in adjacent_polys.map(func(p): return vertices_of_cell(p)):
 		for p in poly.size():
-			if poly[(p + 1) % poly.size()] == point && !adjacents.has(poly[p]):
+			if poly[(p + 1) % poly.size()] == vertex && !adjacents.has(poly[p]):
 				adjacents.append(poly[p])
 	return adjacents
 
-# Returns the amount of voronoi vertices in the current graph
+## Returns the amount of voronoi vertices in the current graph
 func vertex_count() -> int:
 	return vertices.size()
 
-# Returns a given vertex by index (used for encapsulation)
-func get_vertex(index: int) -> Vector2:
-	return vertices[index]
+## Returns a given vertex by index (used for encapsulation)
+func get_vertex_position(vertex: int) -> Vector2:
+	return vertices[vertex]
 
-# Returns the indices of the polygons surrounding a given vertex
-func get_surrounding_polygons(index: int) -> Array:
-	return touches_vertex[index]
+## Returns the indices of the cells surrounding a given vertex
+func get_surrounding_cells(vertex: int) -> Array:
+	return touches_vertex[vertex]

@@ -37,7 +37,7 @@ func gen_finished(accumulative_time: float):
 	poly_gen.call_deferred("generate")
 
 
-func _on_generate(seed_text: String, min_distance: int, max_tries: int, centroid_lerp: float):
+func _on_generate(seed_text: String, hex: bool, min_distance: int, max_tries: int, centroid_lerp: float):
 	ui.generator_input_holder.visible = false
 	if seed_text.length() > 0:
 		if seed_text.is_valid_int():
@@ -46,8 +46,9 @@ func _on_generate(seed_text: String, min_distance: int, max_tries: int, centroid
 			terrainator.terrain_seed = seed_text.to_lower().hash()
 	else:
 		terrainator.terrain_seed = int(Time.get_unix_time_from_system())
-	terrainator.poisson_min_distance = min_distance
-	terrainator.poisson_max_tries = max_tries
+	terrainator.sampling_mode = Terrainator.SamplingMode.HEX if hex else Terrainator.SamplingMode.POISSON_DISC
+	terrainator.sampling_min_distance = min_distance
+	terrainator.sampling_poisson_max_tries = max_tries
 	terrainator.voronator_centroid_lerp = centroid_lerp
 	ui.seed_label.terrain_seed = terrainator.terrain_seed
 	generate()

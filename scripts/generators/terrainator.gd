@@ -1,4 +1,4 @@
-# Generates a terrain
+## A terrain generator using the voronator as a base
 class_name Terrainator
 extends Node
 
@@ -19,7 +19,7 @@ var state: State = State.IDLE
 
 var voronator: Voronator
 
-# The location of the cell centers
+## The location of the cell centers
 var centers: PackedVector2Array
 
 @export var area: Rect2
@@ -30,13 +30,18 @@ var centers: PackedVector2Array
 @export_subgroup("Voronoi", "voronator_")
 @export var voronator_centroid_lerp = 0.1
 
-@export_subgroup("Poisson Disc Sampling", "poisson_")
-@export var poisson_min_distance: float = 10
-@export var poisson_max_tries: int = 10
+@export_subgroup("Point Sampling", "sampling_")
+@export var sampling_mode: SamplingMode = SamplingMode.POISSON_DISC
+@export var sampling_min_distance: float = 10
+@export var sampling_poisson_max_tries: int = 10
 
-# A terrain generator using the voronator as a base
 
-# Call to start generation process
+enum SamplingMode {
+	POISSON_DISC,
+	HEX
+}
+
+## Call to start generation process
 func generate():
 	if state != State.IDLE:
 		return
@@ -50,7 +55,13 @@ func generate():
 	var accumulative_time: float = 0.0
 	
 	var start = Time.get_ticks_usec()
-	centers = PoissonDiscSampling.calculate(area.size, poisson_min_distance, poisson_max_tries, terrain_seed)
+	
+	match(sampling_mode):
+		SamplingMode.POISSON_DISC:
+			centers = PoissonDiscSampling.calculate(area.size, sampling_min_distance, sampling_poisson_max_tries, terrain_seed)
+		SamplingMode.HEX:
+			centers = HexSampling.calculate(area.size, sampling_min_distance)
+	
 	var end = Time.get_ticks_usec()
 	var duration: float = (end - start) / 1000000.0
 	accumulative_time += duration
@@ -58,7 +69,7 @@ func generate():
 	
 	if centers.size() <= 0:
 		state = State.ERROR
-		push_error("PDS has to generate points to be triangulated")
+		push_error("Sampler has to generate points to be triangulated")
 		emit_signal("generation_error")
 		return
 	
@@ -85,7 +96,8 @@ func generate():
 	state = State.FINISHED
 	emit_signal("finished_generation", accumulative_time)
 
-
+## Returs the list of TerrainFeatures this Terrainator uses.
+## Those have to be the direct children of this Terrainator.
 func get_features() -> Array[TerrainFeature]:
 	var array: Array[TerrainFeature] = []
 	

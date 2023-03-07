@@ -47,7 +47,7 @@ rivers = NodePath("../Rivers")
 
 [node name="Biomes" type="Node" parent="." node_paths=PackedStringArray("basic_types", "elevation", "moisture")]
 script = ExtResource("6_84h42")
-biome_list = [ExtResource("7_5qi2u"), ExtResource("8_o2awu"), ExtResource("9_eu7ih"), ExtResource("10_7psna"), ExtResource("11_shxqt"), ExtResource("12_1i8ln"), ExtResource("13_m7bgr"), ExtResource("14_st2ix"), ExtResource("15_74mdo"), ExtResource("16_qf7t6"), ExtResource("17_xadqi"), ExtResource("18_upxc8"), ExtResource("19_duhb2")]
+biome_list = Array[Resource("res://scripts/biome.gd")]([ExtResource("7_5qi2u"), ExtResource("8_o2awu"), ExtResource("9_eu7ih"), ExtResource("10_7psna"), ExtResource("11_shxqt"), ExtResource("12_1i8ln"), ExtResource("13_m7bgr"), ExtResource("14_st2ix"), ExtResource("15_74mdo"), ExtResource("16_qf7t6"), ExtResource("17_xadqi"), ExtResource("18_upxc8"), ExtResource("19_duhb2")])
 noise = SubResource("FastNoiseLite_a514r")
 basic_types = NodePath("../BasicTypes")
 elevation = NodePath("../Elevation")

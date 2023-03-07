@@ -4,6 +4,7 @@ UI_GENERATOR_SEED_LABEL,Seed:,Seed:
 UI_GENERATOR_SEED_PLACEHOLDER,Enter seed here...,Gib Seed hier ein...
 UI_GENERATOR_START,Start,Start
 UI_GENERATOR_POINT_DISTRIBUTION,Point Distribution,Punkteverteilung
+UI_GENERATOR_HEX,Use Hex grid:,Nutze Hexfelder:
 UI_GENERATOR_MIN_DISTANCE,Minimal Distance:,Minimaler Abstand:
 UI_GENERATOR_MAX_TRIES,Maximum Tries:,Maximale Versuche:
 UI_GENERATOR_CENTROID_LERP,Centroid Interpolation:,Centroid Interpolation:
@@ -27,6 +28,8 @@ UI_INFO_SEED,Seed: %d,Seed: %d
 ,,
 ,,
 UI_CLICK_TO_COPY,Click to copy,Klicke um zu kopieren
+UI_ON,On,An
+UI_OFF,Off,Aus
 ,,
 ,,
 ,,

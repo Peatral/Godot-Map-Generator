@@ -29,20 +29,20 @@ func _ready():
 
 
 func generate():
-	for poly_idx in terrainator.voronator.poly_count():
-		if feature_basic_types.is_cell_ocean(poly_idx):
+	for cell_idx in terrainator.voronator.cell_count():
+		if feature_basic_types.is_cell_ocean(cell_idx):
 			continue
 		
-		var poly = Geometry2D.convex_hull(terrainator.voronator.polygon(poly_idx))
+    var poly = Geometry2D.convex_hull(terrainator.voronator.polygon_of_cell(cell_idx))
 		
 		if poly.size() <= 2:
 			continue
 		
 		var area: PolygonArea = PolygonArea.new()
-		area.name = "Cell_%d" % poly_idx
-		area.idx = poly_idx
+		area.name = "Cell_%d" % cell_idx
+		area.idx = cell_idx
 		area.poly = poly
-		area.color = cell_fill_color(poly_idx)
+		area.color = cell_fill_color(cell_idx)
 		area.z_index = -1
 		add_child(area)
 		area.connect("pressed", cell_clicked)
@@ -56,7 +56,7 @@ func generate():
 		
 		var river: PackedInt32Array = feature_rivers.get_river(idx)
 		for v in river:
-			line.add_point(terrainator.voronator.get_vertex(v))
+			line.add_point(terrainator.voronator.get_vertex_position(v))
 		
 		add_child(line)
 	

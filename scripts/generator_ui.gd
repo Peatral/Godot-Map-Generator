@@ -1,6 +1,6 @@
 extends Control
 
-signal generate(seed: String, min_distance: int, max_tries: int)
+signal generate(seed: String, hex: bool, min_distance: int, max_tries: int)
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var info_text: RichTextLabel = $InfoText
@@ -17,5 +17,5 @@ func print_text(text, append=false, newline=true):
 func _on_seed_copied():
 	animation_player.play("ui_seed_copy")
 
-func _on_generate(seed: String, min_distance: int, max_tries: int, centroid_lerp: float):
-	emit_signal("generate", seed, min_distance, max_tries, centroid_lerp)
+func _on_generate(seed: String, hex: bool, min_distance: int, max_tries: int, centroid_lerp: float):
+	emit_signal("generate", seed, hex, min_distance, max_tries, centroid_lerp)

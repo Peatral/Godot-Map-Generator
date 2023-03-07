@@ -20,9 +20,9 @@ func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> vo
 	if use_feature_seed:
 		noise.seed = feature_seed
 	
-	cell_ocean.resize(voronator.poly_count())
-	cell_water.resize(voronator.poly_count())
-	cell_coast.resize(voronator.poly_count())
+	cell_ocean.resize(voronator.cell_count())
+	cell_water.resize(voronator.cell_count())
+	cell_coast.resize(voronator.cell_count())
 	cell_ocean.fill(false)
 	cell_water.fill(false)
 	cell_coast.fill(false)
@@ -50,7 +50,7 @@ func _get_finished_message() -> String:
 # Runs the island function for all vertices
 func _run_island_function_vertices(voronator: Voronator) -> void:
 	for idx in voronator.vertex_count():
-		var vertex = voronator.get_vertex(idx)
+		var vertex = voronator.get_vertex_position(idx)
 		vertex_water[idx] = !_island_function(vertex)
 
 
@@ -70,8 +70,8 @@ func _falloff(point: Vector2) -> float:
 
 # Applies water to cells based on its vertices
 func apply_water_to_cells(voronator: Voronator) -> void:
-	for idx in voronator.poly_count():
-		cell_water[idx] = Array(voronator.vertex_indices(idx)).map(func(p): return vertex_water[p]).has(true)
+	for idx in voronator.cell_count():
+		cell_water[idx] = Array(voronator.vertices_of_cell(idx)).map(func(p): return vertex_water[p]).has(true)
 
 
 # Tries to return a vertex from the top left corner
@@ -89,7 +89,7 @@ func _top_left_corner(centers: PackedVector2Array) -> int:
 func _mark_ocean(centers: PackedVector2Array, voronator: Voronator) -> void:
 	var todo = PackedInt32Array()
 	var layers = PackedInt32Array()
-	layers.resize(voronator.poly_count())
+	layers.resize(voronator.cell_count())
 	layers.fill(-1)
 	
 	var startpoint = _top_left_corner(centers)
@@ -98,7 +98,7 @@ func _mark_ocean(centers: PackedVector2Array, voronator: Voronator) -> void:
 	while todo.size() > 0:
 		var current = todo[0]
 		cell_ocean[current] = true
-		for poly in voronator.adjacent_polygons(current):
+		for poly in voronator.adjacent_cells(current):
 			if layers[poly] == -1 && !todo.has(poly) && cell_water[poly]:
 				todo.append(poly)
 				layers[poly] = layers[current] + 1
@@ -107,10 +107,10 @@ func _mark_ocean(centers: PackedVector2Array, voronator: Voronator) -> void:
 
 # Marks cells as coast cells when they are land and next to the ocean
 func _mark_coast(voronator: Voronator) -> void:
-	for idx in voronator.poly_count():
+	for idx in voronator.cell_count():
 		if cell_water[idx] || cell_ocean[idx]:
 			continue
-		for neighbor in voronator.adjacent_polygons(idx):
+		for neighbor in voronator.adjacent_cells(idx):
 			if cell_ocean[neighbor] && cell_water[neighbor]:
 				cell_coast[idx] = true
 				break
@@ -119,7 +119,7 @@ func _mark_coast(voronator: Voronator) -> void:
 # Marks the terrain type off all vertices based on the surrounding cells
 func _mark_vertices(voronator: Voronator) -> void:
 	for vertex in voronator.vertex_count():
-		var neighbors = voronator.get_surrounding_polygons(vertex)
+		var neighbors = voronator.get_surrounding_cells(vertex)
 		
 		var all_water = true
 		var all_ocean = true

@@ -21,7 +21,7 @@ func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> vo
 	if use_feature_seed:
 		noise.seed = feature_seed
 	
-	biomes.resize(voronator.poly_count())
+	biomes.resize(voronator.cell_count())
 	biomes.fill(0)
 	
 	# This is currently unused but tracks how often a biome got picked
@@ -29,7 +29,7 @@ func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> vo
 	biome_distribution.resize(biome_list.size())
 	biome_distribution.fill(0)
 	
-	for cell in voronator.poly_count():
+	for cell in voronator.cell_count():
 		if basic_types.is_cell_ocean(cell):
 			continue
 		
@@ -56,10 +56,10 @@ func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> vo
 			continue
 		
 		
-		var poly = voronator.vertex_indices(cell)
+		var poly = voronator.vertices_of_cell(cell)
 		var avg = Vector2()
 		for p in poly:
-			avg += voronator.get_vertex(p)
+			avg += voronator.get_vertex_position(p)
 		avg /= poly.size()
 		
 		var random = noise.get_noise_2d(avg.x, avg.y) * probs

@@ -12,9 +12,9 @@ var moisture = PackedFloat32Array()
 
 
 func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> void:
-	distance_to_seed.resize(voronator.poly_count())
+	distance_to_seed.resize(voronator.cell_count())
 	distance_to_seed.fill(-1)
-	moisture.resize(voronator.poly_count())
+	moisture.resize(voronator.cell_count())
 	moisture.fill(-1)
 	
 	var max_dist = -1
@@ -29,7 +29,7 @@ func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> vo
 		var current = todo[0]
 		if max_dist < distance_to_seed[current]:
 			max_dist = distance_to_seed[current]
-		for neighbor in voronator.adjacent_polygons(current):
+		for neighbor in voronator.adjacent_cells(current):
 			if basic_types.is_cell_ocean(neighbor):
 				continue
 			var new_distance = distance_to_seed[current] + 1
@@ -38,7 +38,7 @@ func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> vo
 				todo.append(neighbor)
 		todo.remove_at(0)
 	
-	for cell in voronator.poly_count():
+	for cell in voronator.cell_count():
 		if basic_types.cell_water[cell]:
 			distance_to_seed[cell] = 0
 		moisture[cell] = float(1.0 - pow(distance_to_seed[cell] / float(max_dist), 0.5))
@@ -68,7 +68,7 @@ func find_riverbanks(voronator: Voronator) -> PackedInt32Array:
 	for idx in rivers.get_river_count():
 		var river = rivers.get_river(idx)
 		for vertex in river:
-			for cell in voronator.get_surrounding_polygons(vertex):
+			for cell in voronator.get_surrounding_cells(vertex):
 				add_to_set(riverbanks, cell)
 	return riverbanks
 
@@ -76,7 +76,7 @@ func find_riverbanks(voronator: Voronator) -> PackedInt32Array:
 # Finds all cells that are lakeshores
 func find_lakeshores(voronator: Voronator) -> PackedInt32Array:
 	var lakeshores = PackedInt32Array()
-	for cell in voronator.poly_count():
+	for cell in voronator.cell_count():
 		if basic_types.is_cell_lake(cell):
 			add_to_set(lakeshores, cell)
 	return lakeshores

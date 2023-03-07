@@ -17,7 +17,7 @@ var downslope: PackedInt32Array = PackedInt32Array()
 func _generate_features(centers: PackedVector2Array, voronator: Voronator) -> void:
 	distance_to_coast.resize(voronator.vertex_count())
 	vertex_elevation.resize(voronator.vertex_count())
-	cell_elevation.resize(voronator.poly_count())
+	cell_elevation.resize(voronator.cell_count())
 	downslope.resize(voronator.vertex_count())
 	distance_to_coast.fill(-1)
 	vertex_elevation.fill(0)
@@ -77,8 +77,8 @@ func _apply_vertex_elevation(voronator: Voronator, basic_types: TerrainFeatureBa
 
 # Applies the elevation to cells based on their vertices
 func _apply_cell_elevation(voronator: Voronator) -> void:
-	for cell in voronator.poly_count():
-		var poly = voronator.vertex_indices(cell)
+	for cell in voronator.cell_count():
+		var poly = voronator.vertices_of_cell(cell)
 		var avg = 0
 		for p in poly:
 			avg += vertex_elevation[p]

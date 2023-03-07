@@ -27,7 +27,7 @@ Delaunator and a custom one for the PDS algorithm. The move to C++ improved the 
 The custom addon is located [here](https://github.com/Peatral/faster-geometry-2d-godot).
 
 ## Screenshots
-The menu is fully internationalized in german and english.
+The menu is fully translated in german and english.
 ![The menu](assets/screenshots/menu.png)
 A generated island. A selected cell is highlighted and information about that cell are displayed on the left or drawn directly over the island.
 ![An island](assets/screenshots/island.png)

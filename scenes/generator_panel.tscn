@@ -14,75 +14,72 @@ offset_bottom = 445.0
 script = ExtResource("1_m361y")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-offset_right = 350.0
-offset_bottom = 262.0
+layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 340.0
-offset_bottom = 252.0
+layout_mode = 2
 theme_override_constants/separation = 10
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
-offset_right = 330.0
-offset_bottom = 34.0
+layout_mode = 2
 text = "UI_GENERATOR"
 label_settings = SubResource("LabelSettings_0mbop")
 horizontal_alignment = 1
 
 [node name="SeedInputHolder" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-offset_top = 44.0
-offset_right = 330.0
-offset_bottom = 75.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/SeedInputHolder"]
-offset_top = 2.0
-offset_right = 218.0
-offset_bottom = 28.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
 text = "UI_GENERATOR_SEED_LABEL"
 
 [node name="SeedInput" type="LineEdit" parent="MarginContainer/VBoxContainer/SeedInputHolder"]
-offset_left = 222.0
-offset_right = 330.0
-offset_bottom = 31.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 placeholder_text = "UI_GENERATOR_SEED_PLACEHOLDER"
 
-[node name="PoissonInputHolder" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
-offset_top = 85.0
-offset_right = 330.0
-offset_bottom = 201.0
+[node name="PointDistributionInputHolder" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PoissonInputHolder"]
-offset_right = 330.0
-offset_bottom = 26.0
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PointDistributionInputHolder"]
+layout_mode = 2
 text = "UI_GENERATOR_POINT_DISTRIBUTION"
 horizontal_alignment = 1
 
-[node name="MinDistanceInputHolder" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PoissonInputHolder"]
-offset_top = 30.0
-offset_right = 330.0
-offset_bottom = 56.0
+[node name="HexInputHolder" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PointDistributionInputHolder"]
+layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PoissonInputHolder/MinDistanceInputHolder"]
-offset_right = 241.0
-offset_bottom = 26.0
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PointDistributionInputHolder/HexInputHolder"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "UI_GENERATOR_HEX"
+
+[node name="HexInput" type="CheckButton" parent="MarginContainer/VBoxContainer/PointDistributionInputHolder/HexInputHolder"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "UI_OFF"
+alignment = 2
+
+[node name="MinDistanceInputHolder" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PointDistributionInputHolder"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PointDistributionInputHolder/MinDistanceInputHolder"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
 text = "UI_GENERATOR_MIN_DISTANCE"
 
-[node name="MinDistanceInput" type="HSlider" parent="MarginContainer/VBoxContainer/PoissonInputHolder/MinDistanceInputHolder"]
-offset_left = 245.0
-offset_right = 330.0
-offset_bottom = 26.0
+[node name="MinDistanceInput" type="HSlider" parent="MarginContainer/VBoxContainer/PointDistributionInputHolder/MinDistanceInputHolder"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 min_value = 1.0
@@ -90,22 +87,17 @@ value = 10.0
 rounded = true
 tick_count = 5
 
-[node name="MaxTriesInputHolder" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PoissonInputHolder"]
-offset_top = 60.0
-offset_right = 330.0
-offset_bottom = 86.0
+[node name="MaxTriesInputHolder" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PointDistributionInputHolder"]
+layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PoissonInputHolder/MaxTriesInputHolder"]
-offset_right = 210.0
-offset_bottom = 26.0
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PointDistributionInputHolder/MaxTriesInputHolder"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
 text = "UI_GENERATOR_MAX_TRIES"
 
-[node name="MaxTriesInput" type="HSlider" parent="MarginContainer/VBoxContainer/PoissonInputHolder/MaxTriesInputHolder"]
-offset_left = 214.0
-offset_right = 330.0
-offset_bottom = 26.0
+[node name="MaxTriesInput" type="HSlider" parent="MarginContainer/VBoxContainer/PointDistributionInputHolder/MaxTriesInputHolder"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 min_value = 1.0
@@ -113,22 +105,17 @@ value = 10.0
 rounded = true
 tick_count = 5
 
-[node name="CentroidLerp" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PoissonInputHolder"]
-offset_top = 90.0
-offset_right = 330.0
-offset_bottom = 116.0
+[node name="CentroidLerp" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PointDistributionInputHolder"]
+layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PoissonInputHolder/CentroidLerp"]
-offset_right = 250.0
-offset_bottom = 26.0
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PointDistributionInputHolder/CentroidLerp"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
 text = "UI_GENERATOR_CENTROID_LERP"
 
-[node name="CentroidLerpInput" type="HSlider" parent="MarginContainer/VBoxContainer/PoissonInputHolder/CentroidLerp"]
-offset_left = 254.0
-offset_right = 330.0
-offset_bottom = 26.0
+[node name="CentroidLerpInput" type="HSlider" parent="MarginContainer/VBoxContainer/PointDistributionInputHolder/CentroidLerp"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 max_value = 1.0
@@ -137,14 +124,13 @@ value = 0.1
 tick_count = 5
 
 [node name="GenerateButton" type="Button" parent="MarginContainer/VBoxContainer"]
-offset_top = 211.0
-offset_right = 330.0
-offset_bottom = 242.0
+layout_mode = 2
 size_flags_vertical = 3
 text = "UI_GENERATOR_START"
 
 [connection signal="text_changed" from="MarginContainer/VBoxContainer/SeedInputHolder/SeedInput" to="." method="_on_seed_changed"]
-[connection signal="value_changed" from="MarginContainer/VBoxContainer/PoissonInputHolder/MinDistanceInputHolder/MinDistanceInput" to="." method="_on_min_distance_changed"]
-[connection signal="value_changed" from="MarginContainer/VBoxContainer/PoissonInputHolder/MaxTriesInputHolder/MaxTriesInput" to="." method="_on_max_tries_changed"]
-[connection signal="value_changed" from="MarginContainer/VBoxContainer/PoissonInputHolder/CentroidLerp/CentroidLerpInput" to="." method="_on_centroid_lerp_changed"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/PointDistributionInputHolder/HexInputHolder/HexInput" to="." method="_on_hex_toggled"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/PointDistributionInputHolder/MinDistanceInputHolder/MinDistanceInput" to="." method="_on_min_distance_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/PointDistributionInputHolder/MaxTriesInputHolder/MaxTriesInput" to="." method="_on_max_tries_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/PointDistributionInputHolder/CentroidLerp/CentroidLerpInput" to="." method="_on_centroid_lerp_changed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/GenerateButton" to="." method="_on_generate_button_pressed"]
